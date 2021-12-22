@@ -44,7 +44,7 @@ class Dijkstra:
             self.un_visited.remove(curr_node)
 
     def min_dist_in_un_visited(self):
-        """ Finds the minimum distance to src from unvisited nodes"""
+        """ Finds the minimum distance to src from unvisited nodes """
         minimum = self.un_visited[0]
         for node in self.un_visited:
             if self.shortest_dist_from_src[node] < self.shortest_dist_from_src[minimum]:
@@ -59,7 +59,7 @@ class Dijkstra:
         raise ValueError("destination node not exist")
 
     def shortest_path(self, graph, src, dest):
-        """ Returns tuple that consists the distance and the path of the shortest path from src to dest"""
+        """ Returns tuple that consists the distance and the path of the shortest path from src to dest """
         self.do_algo(graph, src)
         distance = self.INFINITY
         path = []

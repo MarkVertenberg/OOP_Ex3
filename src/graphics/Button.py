@@ -1,9 +1,12 @@
 import pygame
 
+BLACK = (0, 0, 0)
+
 
 class Button:
-
-    BLACK = (0, 0, 0)
+    """
+        Class that representing a button in pygame.
+    """
 
     def __init__(self, color, x, y, width, height, text='', text_color=BLACK, text_size=48):
         self.color = color
@@ -18,8 +21,8 @@ class Button:
     def draw(self, screen, outline=None):
         """ draw the button on the screen """
         if outline:
-            pygame.draw.rect(screen, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 0)
+            pygame.draw.rect(screen, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
 
         if self.text != '':
             font = pygame.font.SysFont('comicsans', self.text_size)
