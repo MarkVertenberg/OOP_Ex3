@@ -31,19 +31,20 @@ class Button:
         pos = pygame.mouse.get_pos()
         if self.is_clicked and self.window:
             self.window.handle_event(event)
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.is_over(pos):
-                print(self.text + " button is clicked!")
-                self.is_clicked = True
-            else:
-                self.is_clicked = False
-        if event.type == pygame.MOUSEMOTION:
-            if self.is_over(pos):
-                self.text_color = over_color_text
-                self.color = over_color
-            else:
-                self.text_color = not_over_color_text
-                self.color = not_over_color
+        else:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.is_over(pos):
+                    print(self.text + " button is clicked!")
+                    self.is_clicked = True
+                else:
+                    self.is_clicked = False
+            if event.type == pygame.MOUSEMOTION:
+                if self.is_over(pos):
+                    self.text_color = over_color_text
+                    self.color = over_color
+                else:
+                    self.text_color = not_over_color_text
+                    self.color = not_over_color
 
     def draw(self, screen, outline=None):
         """ draw the button on the screen """
