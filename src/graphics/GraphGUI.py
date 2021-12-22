@@ -1,7 +1,8 @@
 import pygame
 import sys
 from Button import Button
-from InputText import InputBox
+from InputBox import InputBox
+from LittleWindow import LittleWindow
 
 WIDTH = 1280
 HEIGHT = 720
@@ -28,26 +29,16 @@ clock = pygame.time.Clock()
 def start_screen():
     global clock
     global running
-    test_box = InputBox(0, 0, 200, 50, "Input Box Test")
-    load_button = Button(WHITE, WIDTH / 5, HEIGHT / 5, WIDTH * 0.6, HEIGHT * 0.6, "Load Graph")
+    load_button = Button(WHITE, (WIDTH / 2) - 125, (HEIGHT / 2) - 15, 250, 75, "Load Graph")
     while running:
         screen.fill(WHITE)
         load_button.draw(screen)
-        test_box.draw(screen, 5)
         for event in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-            test_box.handle_event(event)
+            load_button.handle_event(event, WHITE, WHITE, GREEN, BLACK)
+            if load_button.is_clicked:
+                main_screen()
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if load_button.is_over(pos):
-                    print("The Load button is clicked!")
-                    main_screen()
-            if event.type == pygame.MOUSEMOTION:
-                if load_button.is_over(pos):
-                    load_button.text_color = GREEN
-                else:
-                    load_button.text_color = BLACK
         pygame.display.update()
         clock.tick(REFRESH_RATE)
     pygame.quit()
@@ -63,21 +54,10 @@ def main_screen():
         show_graph(WIDTH * 0.75, HEIGHT)
         show_buttons(list_buttons)
         for event in pygame.event.get():
-            pos = pygame.mouse.get_pos()
+            for button in list_buttons:
+                button.handle_event(event)
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for button in list_buttons:
-                    if button.is_over(pos):
-                        print(button.text + " button is clicked!")
-            if event.type == pygame.MOUSEMOTION:
-                for button in list_buttons:
-                    if button.is_over(pos):
-                        button.color = SKY_BLUE
-                        button.text_color = WHITE
-                    else:
-                        button.color = WHITE
-                        button.text_color = BLACK
         pygame.display.update()
         clock.tick(REFRESH_RATE)
     pygame.quit()
@@ -96,15 +76,18 @@ def show_buttons(buttons):
 
 
 def create_buttons():
-    load_button = Button(WHITE, WIDTH * 0.75, 0, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Load Graph")
-    save_button = Button(WHITE, WIDTH * 0.75, HEIGHT * (1 / 9.0), WIDTH * 0.25, HEIGHT * (1 / 9.0), "Save Graph")
-    add_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 2, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Node")
-    remove_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 3, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Node")
-    add_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 4, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Edge")
-    remove_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 5, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Edge")
-    shortest_path_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 6, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Shortest Path")
-    tsp_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 7, WIDTH * 0.25, HEIGHT * (1 / 9.0), "TSP")
-    center_point_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 8, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Center Node")
+    remove_node_input_box = InputBox(10, 10, 200, 30, "Node key", text_size=16)
+    remove = Button(WHITE, 220, 10, 80, 30, "Remove", text_size=16)
+    remove_node_window = LittleWindow([remove_node_input_box], [remove])
+    load_button = Button(WHITE, WIDTH * 0.75, 0, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Load Graph", window=LittleWindow())
+    save_button = Button(WHITE, WIDTH * 0.75, HEIGHT * (1 / 9.0), WIDTH * 0.25, HEIGHT * (1 / 9.0), "Save Graph", window=LittleWindow())
+    add_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 2, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Node", window=LittleWindow())
+    remove_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 3, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Node", window=remove_node_window)
+    add_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 4, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Edge", window=LittleWindow())
+    remove_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 5, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Edge", window=LittleWindow())
+    shortest_path_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 6, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Shortest Path", window=LittleWindow())
+    tsp_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 7, WIDTH * 0.25, HEIGHT * (1 / 9.0), "TSP", window=LittleWindow())
+    center_point_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 8, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Center Node", window=LittleWindow())
     return [load_button, save_button, add_node_button, remove_node_button, add_edge_button, remove_edge_button,
             shortest_path_button, tsp_button, center_point_button]
 
