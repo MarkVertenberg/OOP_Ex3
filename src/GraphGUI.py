@@ -23,6 +23,8 @@ class GraphGUI:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.running = True
         self.clock = pygame.time.Clock()
+        self.pixel_x = 1
+        self.pixel_y = 1
 
     def run_gui(self):
         pygame.init()
@@ -66,10 +68,28 @@ class GraphGUI:
             self.clock.tick(REFRESH_RATE)
         pygame.quit()
 
-    def show_graph(self, width, height, graph: GraphInterface):
-        for node in graph.get_all_v().values():
-            node.draw(self.screen)
-        pygame.draw.rect(self.screen, BLACK, (0, 0, width, height), 5)
+    def show_graph(self, width, height, graph: GraphInterface, outline=5):
+        max_range = 0.0
+        min_rage = float('inf')
+        nodes = graph.get_all_v().values()
+        if len(nodes) > 0:
+            for node in nodes:
+                if node.get_x() > max_range:
+                    max_range = node.get_x()
+                if node.get_x() < min_rage:
+                    min_rage = node.get_x()
+                if node.get_y() > max_range:
+                    max_range = node.get_y()
+                if node.get_y() < min_rage:
+                    min_rage = node.get_y()
+            start_x = outline + 20
+            start_y = outline + 20
+            self.pixel_x = (max_range - min_rage) / (width - start_x - outline - 20)
+            print(self.pixel_x)
+            self.pixel_y = (max_range - min_rage) / (height - start_y - outline - 20)
+            for node in nodes:
+                node.draw(self.screen, start_x, start_y, self.pixel_x, self.pixel_y, min_rage)
+            pygame.draw.rect(self.screen, BLACK, (0, 0, width, height), outline)
 
     def show_buttons(self, buttons):
         for button in buttons:

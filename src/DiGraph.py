@@ -48,7 +48,7 @@ LIGHT_YELLOW = (255, 253, 126)
 
 
 class Node:
-    def __init__(self, key, x, y, color=LIGHT_YELLOW, radius=30):
+    def __init__(self, key, x, y, color=LIGHT_YELLOW, radius=20):
         self.key = key
         self.x = x
         self.y = y
@@ -57,23 +57,23 @@ class Node:
         self.color = color
         self.radius = radius
 
-    def getKey(self):
+    def get_key(self):
         return self.key
 
-    def x(self):
+    def get_x(self):
         return self.x
 
-    def y(self):
+    def get_y(self):
         return self.y
 
     def distance(self, other):
-        x = math.pow((other.getx() - self.x()), 2)
-        y = math.pow((other.gety() - self.y()), 2)
+        x = math.pow((other.getx() - self.x), 2)
+        y = math.pow((other.gety() - self.y), 2)
         return math.sqrt(x + y)
 
-    def draw(self, screen, outline=3):
-        pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius + outline)
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+    def draw(self, screen, start_x, start_y, pixel_x, pixel_y, min_rage, outline=3):
+        pygame.draw.circle(screen, BLACK, (((self.x - min_rage) / pixel_x) + start_x, ((self.y - min_rage) / pixel_y) + start_y), self.radius + outline)
+        pygame.draw.circle(screen, self.color, (((self.x - min_rage) / pixel_x) + start_x, ((self.y - min_rage) / pixel_y) + start_y), self.radius)
         font = pygame.font.SysFont('comicsans', 16)
         text = font.render(str(self.key), True, BLACK)
-        screen.blit(text, (self.x - text.get_width() / 2, self.y - text.get_height() / 2))
+        screen.blit(text, (((self.x - min_rage) / pixel_x) + start_x - text.get_width() / 2, ((self.y - min_rage) / pixel_y) + start_y - text.get_height() / 2))

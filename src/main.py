@@ -28,12 +28,13 @@ def check():
 def my_check():
     graph = DiGraph()
     graph.nodes[0] = Node(0, 50, 50)
-    graph.nodes[1] = Node(1, 260, 150)
+    graph.nodes[1] = Node(1, 30, 30)
+    graph.nodes[2] = Node(2, 32, 43)
+    graph.nodes[3] = Node(3, 39, 31)
+    graph.nodes[4] = Node(4, 48, 32)
+    graph.nodes[5] = Node(5, 41, 39)
     graph_algo = GraphAlgo(graph)
     graph_algo.plot_graph()
-    graph.nodes[0] = Node(0, 400, 400)
-    graph_algo2 = GraphAlgo(graph)
-    graph_algo2.plot_graph()
 
 
 def check0():
