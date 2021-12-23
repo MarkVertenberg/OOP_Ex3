@@ -42,7 +42,7 @@ class DiGraph(GraphInterface):
         return True
 
     def add_node(self, node_id: int, pos: tuple = None):
-        if self.nodes[node_id] is None:
+        if self.nodes.get(node_id) is None:
             self.nodes[node_id] = Node(node_id, pos)
             self.mc = self.mc + 1
             return True

@@ -20,20 +20,22 @@ def check():
     ([1,3,4,2],3.5)
     """
     my_check()
-    # check0()
+    check0()
     # check1()
     # check2()
 
 
 def my_check():
     graph = DiGraph()
-    graph.nodes[0] = Node(0, (600, 550))
-    graph.nodes[1] = Node(1, (550, 600))
-    graph.nodes[2] = Node(2, (575, 580))
+    graph.add_node(0, (600, 550))
+    graph.add_node(1, (550, 600))
+    graph.add_node(2, (575, 580))
     # graph.nodes[3] = Node(3, 39, 31)
     # graph.nodes[4] = Node(4, 48, 32)
     # graph.nodes[5] = Node(5, 41, 39)
     graph_algo = GraphAlgo(graph)
+    graph_algo.plot_graph()
+    graph.remove_node(2)
     graph_algo.plot_graph()
 
 
