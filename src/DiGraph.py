@@ -1,5 +1,8 @@
-from GraphInterface import GraphInterface
 import math
+
+import pygame
+
+from GraphInterface import GraphInterface
 
 
 class DiGraph(GraphInterface):
@@ -40,13 +43,19 @@ class DiGraph(GraphInterface):
         pass
 
 
+BLACK = (0, 0, 0)
+LIGHT_YELLOW = (255, 253, 126)
+
+
 class Node:
-    def __init__(self, key, x, y):
+    def __init__(self, key, x, y, color=LIGHT_YELLOW, radius=30):
         self.key = key
         self.x = x
         self.y = y
         self.outEdges = {}
         self.inEdges = {}
+        self.color = color
+        self.radius = radius
 
     def getKey(self):
         return self.key
@@ -62,3 +71,9 @@ class Node:
         y = math.pow((other.gety() - self.y()), 2)
         return math.sqrt(x + y)
 
+    def draw(self, screen, outline=3):
+        pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius + outline)
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+        font = pygame.font.SysFont('comicsans', 16)
+        text = font.render(str(self.key), True, BLACK)
+        screen.blit(text, (self.x - text.get_width() / 2, self.y - text.get_height() / 2))

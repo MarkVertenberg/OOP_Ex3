@@ -1,5 +1,6 @@
 import pygame
-from LittleWindow import LittleWindow
+
+from src.graphics.LittleWindow import LittleWindow
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)

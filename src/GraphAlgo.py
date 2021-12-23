@@ -1,12 +1,16 @@
 from typing import List
 
 from GraphAlgoInterface import GraphAlgoInterface
+from GraphInterface import GraphInterface
 
 
 class GraphAlgo(GraphAlgoInterface):
 
+    def __init__(self, graph: GraphInterface = None):
+        self.graph = graph
+
     def get_graph(self):
-        pass
+        return self.graph
 
     def load_from_json(self, file_name: str):
         pass
@@ -24,4 +28,6 @@ class GraphAlgo(GraphAlgoInterface):
         pass
 
     def plot_graph(self):
-        pass
+        from GraphGUI import GraphGUI
+        gui = GraphGUI(self)
+        gui.run_gui()

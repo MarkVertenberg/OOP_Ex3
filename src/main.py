@@ -1,5 +1,5 @@
-"""Need to implement this two classes, that's why it's an error"""
-from DiGraph import DiGraph
+
+from DiGraph import *
 from GraphAlgo import GraphAlgo
 
 
@@ -19,14 +19,26 @@ def check():
     (7, 6.806805834715163)
     ([1,3,4,2],3.5)
     """
-    check0()
-    check1()
-    check2()
+    my_check()
+    # check0()
+    # check1()
+    # check2()
+
+
+def my_check():
+    graph = DiGraph()
+    graph.nodes[0] = Node(0, 50, 50)
+    graph.nodes[1] = Node(1, 260, 150)
+    graph_algo = GraphAlgo(graph)
+    graph_algo.plot_graph()
+    graph.nodes[0] = Node(0, 400, 400)
+    graph_algo2 = GraphAlgo(graph)
+    graph_algo2.plot_graph()
 
 
 def check0():
     """
-    This function tests the naming (main methods of the DiGraph class, as defined in GraphInterface.
+    This function tests the naming main methods of the DiGraph class, as defined in GraphInterface.
     :return:
     """
     g = DiGraph()  # creates an empty directed graph
@@ -50,7 +62,7 @@ def check0():
 
 def check1():
     """
-       This function tests the naming (main methods of the GraphAlgo class, as defined in GraphAlgoInterface.
+       This function tests the naming main methods of the GraphAlgo class, as defined in GraphAlgoInterface.
     :return:
     """
     g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo

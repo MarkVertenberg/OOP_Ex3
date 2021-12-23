@@ -1,8 +1,9 @@
 import pygame
-import sys
-from Button import Button
-from InputBox import InputBox
-from LittleWindow import LittleWindow
+
+from graphics import *
+from GraphAlgo import GraphAlgo
+from GraphAlgoInterface import GraphAlgoInterface
+from GraphInterface import GraphInterface
 
 WIDTH = 1280
 HEIGHT = 720
@@ -14,65 +15,65 @@ GREEN = (0, 255, 0)
 SKY_BLUE = (75, 118, 229)
 LIGHT_YELLOW = (255, 253, 126)
 
-pygame.init()
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+class GraphGUI:
 
-pygame.display.set_caption("Graph GUI")
-icon = pygame.image.load('images/graph_icon.jpg')
-pygame.display.set_icon(icon)
+    def __init__(self, graph_algo: GraphAlgoInterface = None):
+        self.graph_algo = graph_algo
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.running = True
+        self.clock = pygame.time.Clock()
 
-running = True
-clock = pygame.time.Clock()
+    def run_gui(self):
+        pygame.init()
+        pygame.display.set_caption("Graph GUI")
+        icon = pygame.image.load('graphics/images/graph_icon.jpg')
+        pygame.display.set_icon(icon)
+        if self.graph_algo:
+            self.main_screen()
+        else:
+            self.start_screen()
 
+    def start_screen(self):
+        load_button = Button(WHITE, (WIDTH / 2) - 125, (HEIGHT / 2) - 15, 250, 75, "Load Graph")
+        while self.running:
+            self.screen.fill(WHITE)
+            load_button.draw(self.screen)
+            for event in pygame.event.get():
+                load_button.handle_event(event, WHITE, WHITE, GREEN, BLACK)
+                if load_button.is_clicked:
+                    self.graph_algo = GraphAlgo()
+                    self.graph_algo.load_from_json(load_button.window.input_boxes[0].text)
+                    self.main_screen()
+                if event.type == pygame.QUIT:
+                    self.running = False
+            pygame.display.update()
+            self.clock.tick(REFRESH_RATE)
+        pygame.quit()
 
-def start_screen():
-    global clock
-    global running
-    load_button = Button(WHITE, (WIDTH / 2) - 125, (HEIGHT / 2) - 15, 250, 75, "Load Graph")
-    while running:
-        screen.fill(WHITE)
-        load_button.draw(screen)
-        for event in pygame.event.get():
-            load_button.handle_event(event, WHITE, WHITE, GREEN, BLACK)
-            if load_button.is_clicked:
-                main_screen()
-            if event.type == pygame.QUIT:
-                running = False
-        pygame.display.update()
-        clock.tick(REFRESH_RATE)
-    pygame.quit()
-    sys.exit()
+    def main_screen(self):
+        list_buttons = create_buttons()
+        while self.running:
+            self.screen.fill(WHITE)
+            self.show_graph(WIDTH * 0.75, HEIGHT, self.graph_algo.get_graph())
+            self.show_buttons(list_buttons)
+            for event in pygame.event.get():
+                for button in list_buttons:
+                    button.handle_event(event)
+                if event.type == pygame.QUIT:
+                    self.running = False
+            pygame.display.update()
+            self.clock.tick(REFRESH_RATE)
+        pygame.quit()
 
+    def show_graph(self, width, height, graph: GraphInterface):
+        for node in graph.get_all_v().values():
+            node.draw(self.screen)
+        pygame.draw.rect(self.screen, BLACK, (0, 0, width, height), 5)
 
-def main_screen():
-    global clock
-    global running
-    list_buttons = create_buttons()
-    while running:
-        screen.fill(WHITE)
-        show_graph(WIDTH * 0.75, HEIGHT)
-        show_buttons(list_buttons)
-        for event in pygame.event.get():
-            for button in list_buttons:
-                button.handle_event(event)
-            if event.type == pygame.QUIT:
-                running = False
-        pygame.display.update()
-        clock.tick(REFRESH_RATE)
-    pygame.quit()
-    sys.exit()
-
-
-def show_graph(width, height):
-    global screen
-    pygame.draw.rect(screen, BLACK, (0, 0, width, height), 5, 5)
-
-
-def show_buttons(buttons):
-    global screen
-    for button in buttons:
-        button.draw(screen, 5)
+    def show_buttons(self, buttons):
+        for button in buttons:
+            button.draw(self.screen, 5)
 
 
 def create_buttons():
@@ -127,7 +128,3 @@ def create_buttons():
 
     return [load_button, save_button, add_node_button, remove_node_button, add_edge_button, remove_edge_button,
             shortest_path_button, tsp_button, center_point_button]
-
-
-if __name__ == '__main__':
-    start_screen()

@@ -1,4 +1,8 @@
+from typing import List
+
 import pygame
+
+from src.graphics.InputBox import InputBox
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -9,7 +13,7 @@ LIGHT_YELLOW = (255, 253, 126)
 
 class LittleWindow:
 
-    def __init__(self, input_boxes=None, buttons=None, connected=None):
+    def __init__(self, input_boxes: List[InputBox] = None, buttons=None, connected=None):
         self.connected = connected
         self.input_boxes = input_boxes
         self.buttons = buttons
