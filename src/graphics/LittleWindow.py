@@ -45,3 +45,8 @@ class LittleWindow:
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.draw(screen, 4)
+
+    def reset_data(self):
+        if self.input_boxes:
+            for input_box in self.input_boxes:
+                input_box.text = ''

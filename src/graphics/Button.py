@@ -36,6 +36,8 @@ class Button:
                 if self.is_over(pos):
                     print(self.text + " button is clicked!")
                     self.is_clicked = True
+                    if self.window:
+                        self.window.reset_data()
                 else:
                     self.is_clicked = False
             if event.type == pygame.MOUSEMOTION:
