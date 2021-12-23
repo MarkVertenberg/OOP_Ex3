@@ -35,17 +35,14 @@ class DiGraph(GraphInterface):
             return False
         if self.nodes[id2] is not None:
             return False
-
         self.nodes[id1].inWard = weight
         self.nodes[id1].outWard = weight
         self.mc = self.mc + 1
 
         return True
 
-
-
     def add_node(self, node_id: int, pos: tuple = None):
-        if self.noes[node_id] is None:
+        if self.nodes[node_id] is None:
             self.nodes[node_id] = Node(node_id, pos)
             self.mc = self.mc + 1
             return True
@@ -60,18 +57,16 @@ class DiGraph(GraphInterface):
         else:
             return False
 
-
     def remove_edge(self, node_id1: int, node_id2: int):
         if self.nodes[node_id1] is None:
             return False
         if self.nodes[node_id2] is None:
             return False
         else:
-           self.nodes[node_id2].outWard = None
-           self.nodes[node_id2].outWard = None
-           self.mc = self.mc + 1
-           return True
-
+            self.nodes[node_id2].outWard = None
+            self.nodes[node_id2].outWard = None
+            self.mc = self.mc + 1
+            return True
 
 
 BLACK = (0, 0, 0)
@@ -83,7 +78,8 @@ class Node:
         self.key = key
         self.outWard = {}
         self.inWard = {}
-        self.pos = pos
+        self.x = pos[0]
+        self.y = pos[1]
         self.color = color
         self.radius = radius
 
@@ -102,8 +98,13 @@ class Node:
         return math.sqrt(x + y)
 
     def draw(self, screen, start_x, start_y, pixel_x, pixel_y, min_rage, outline=3):
-        pygame.draw.circle(screen, BLACK, (((self.x - min_rage) / pixel_x) + start_x, ((self.y - min_rage) / pixel_y) + start_y), self.radius + outline)
-        pygame.draw.circle(screen, self.color, (((self.x - min_rage) / pixel_x) + start_x, ((self.y - min_rage) / pixel_y) + start_y), self.radius)
+        pygame.draw.circle(screen, BLACK,
+                           (((self.x - min_rage) / pixel_x) + start_x, ((self.y - min_rage) / pixel_y) + start_y),
+                           self.radius + outline)
+        pygame.draw.circle(screen, self.color,
+                           (((self.x - min_rage) / pixel_x) + start_x, ((self.y - min_rage) / pixel_y) + start_y),
+                           self.radius)
         font = pygame.font.SysFont('comicsans', 16)
         text = font.render(str(self.key), True, BLACK)
-        screen.blit(text, (((self.x - min_rage) / pixel_x) + start_x - text.get_width() / 2, ((self.y - min_rage) / pixel_y) + start_y - text.get_height() / 2))
+        screen.blit(text, (((self.x - min_rage) / pixel_x) + start_x - text.get_width() / 2,
+                           ((self.y - min_rage) / pixel_y) + start_y - text.get_height() / 2))

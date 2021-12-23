@@ -27,9 +27,9 @@ def check():
 
 def my_check():
     graph = DiGraph()
-    graph.nodes[0] = Node(0, 600, 550)
-    graph.nodes[1] = Node(1, 550, 600)
-    graph.nodes[2] = Node(2, 575, 580)
+    graph.nodes[0] = Node(0, (600, 550))
+    graph.nodes[1] = Node(1, (550, 600))
+    graph.nodes[2] = Node(2, (575, 580))
     # graph.nodes[3] = Node(3, 39, 31)
     # graph.nodes[4] = Node(4, 48, 32)
     # graph.nodes[5] = Node(5, 41, 39)
