@@ -22,25 +22,56 @@ class DiGraph(GraphInterface):
         return self.nodes
 
     def all_in_edges_of_node(self, id1: int):
-        return self.nodes[id1].inEdges
+        return self.nodes[id1].inWard
 
     def all_out_edges_of_node(self, id1: int):
-        return self.nodes[id1].outEdges
+        return self.nodes[id1].outWard
 
     def get_mc(self):
-        pass
+        return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float):
-        pass
+        if self.nodes[id1] is not None:
+            return False
+        if self.nodes[id2] is not None:
+            return False
+
+        self.nodes[id1].inWard = weight
+        self.nodes[id1].outWard = weight
+        self.mc = self.mc + 1
+
+        return True
+
+
 
     def add_node(self, node_id: int, pos: tuple = None):
-        pass
+        if self.noes[node_id] is None:
+            self.nodes[node_id] = Node(node_id, pos)
+            self.mc = self.mc + 1
+            return True
+        else:
+            return False
 
     def remove_node(self, node_id: int):
-        pass
+        if self.nodes[node_id] is not None:
+            self.nodes.pop(node_id)
+            self.mc = self.mc + 1
+            return True
+        else:
+            return False
+
 
     def remove_edge(self, node_id1: int, node_id2: int):
-        pass
+        if self.nodes[node_id1] is None:
+            return False
+        if self.nodes[node_id2] is None:
+            return False
+        else:
+           self.nodes[node_id2].outWard = None
+           self.nodes[node_id2].outWard = None
+           self.mc = self.mc + 1
+           return True
+
 
 
 BLACK = (0, 0, 0)
@@ -48,12 +79,11 @@ LIGHT_YELLOW = (255, 253, 126)
 
 
 class Node:
-    def __init__(self, key, x, y, color=LIGHT_YELLOW, radius=20):
+    def __init__(self, key, pos: tuple = None, color=LIGHT_YELLOW, radius=20):
         self.key = key
-        self.x = x
-        self.y = y
-        self.outEdges = {}
-        self.inEdges = {}
+        self.outWard = {}
+        self.inWard = {}
+        self.pos = pos
         self.color = color
         self.radius = radius
 
