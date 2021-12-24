@@ -1,8 +1,10 @@
+import queue
 from typing import List
 import json
 
 from GraphAlgoInterface import GraphAlgoInterface
 from GraphInterface import GraphInterface
+from src import Dijkstra
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -38,13 +40,41 @@ class GraphAlgo(GraphAlgoInterface):
         pass
 
     def shortest_path(self, id1: int, id2: int):
-        pass
+
+     return Dijkstra.shortest_path(self.graph, id1, id2)
+
 
     def TSP(self, node_lst: List[int]):
         pass
 
+    def add_neighbor(self, src, dest):
+        self.graph.nodes[src].append(dest)
+
+    def bfs(self, s):
+        visited = [False] * len(self.graph)
+        q = queue.Queue
+        q.put(s)
+        min = float('inf')
+        visited[s] = True
+
+        while not q.empty():
+            vert = q.get()
+            for neighbor in self.graph[vert]:
+                if not visited[neighbor]:
+                  visited[neighbor] = True
+                  dis = Dijkstra.shortest_path_dist(self.graph, s, neighbor)
+                  if dis < min:
+                    min = dis
+        return min
+
     def centerPoint(self):
-        pass
+        min = float('inf')
+        for Node in self.graph:
+         dis =  self.bfs(self.graph, Node)
+         if dis < min:
+             min = dis
+        #need to return the node not the int?
+        return min
 
     def plot_graph(self):
         from GraphGUI import GraphGUI
