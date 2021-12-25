@@ -1,18 +1,18 @@
 import queue
-import random
 from typing import List
 import json
+import random
 
 from GraphAlgoInterface import GraphAlgoInterface
 from GraphInterface import GraphInterface
-from src import Dijkstra
+from Dijkstra import Dijkstra
 
 DIJKSTRA = Dijkstra()
 
 
 class GraphAlgo(GraphAlgoInterface):
 
-    def __init__(self, graph: GraphInterface = None,node:int=None ,edge:int=None,weight:int=None):
+    def __init__(self, graph: GraphInterface = None, node: int = None, edge: int = None, weight: int = None):
         self.graph = graph
         self.node = node
         self.edge = edge
@@ -23,17 +23,17 @@ class GraphAlgo(GraphAlgoInterface):
 
     def load_from_json(self, file_name: str):
         try:
-         with open(str) as f:
-            obj = json.load(f)
-            list = obj['Edges']
-            for i in range(len(list)):
-             self.graph.add_edge(list[i].get("src"), list[i].get("w"), list.get("dest"))
+            with open(str) as f:
+                obj = json.load(f)
+                list = obj['Edges']
+                for i in range(len(list)):
+                    self.graph.add_edge(list[i].get("src"), list[i].get("w"), list.get("dest"))
 
-            list1 = obj['Nodes']
-            for i in range(len(list)):
-             self.graph.add_node(list1[i].get("id"), list1[i].get("pos"))
+                list1 = obj['Nodes']
+                for i in range(len(list)):
+                    self.graph.add_node(list1[i].get("id"), list1[i].get("pos"))
 
-             return True
+                    return True
 
         except:
             return False
@@ -115,7 +115,7 @@ class GraphAlgo(GraphAlgoInterface):
             for neighbor in self.graph[vert]:
                 if not visited[neighbor]:
                     visited[neighbor] = True
-                    dis = Dijkstra.shortest_path_dist(self.graph, s, neighbor)
+                    dis = DIJKSTRA.shortest_path_dist(self.graph, s, neighbor)
                     if dis < min:
                         min = dis
         return min
@@ -123,7 +123,7 @@ class GraphAlgo(GraphAlgoInterface):
     def centerPoint(self):
         min = float('inf')
         Center = None
-        for Node in self.graph:
+        for Node in self.graph.nodes:
             dis = self.bfs(self.graph, Node)
             if dis < min:
                 min = dis

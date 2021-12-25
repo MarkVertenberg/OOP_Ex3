@@ -36,7 +36,7 @@ class DiGraph(GraphInterface):
         if self.nodes[id2] is not None:
             return False
         self.nodes[id1].inWard = weight
-        self.nodes[id1].outWard = weight
+        self.nodes[id2].outWard = weight
         self.mc = self.mc + 1
 
         return True
@@ -63,8 +63,8 @@ class DiGraph(GraphInterface):
         if self.nodes[node_id2] is None:
             return False
         else:
-            self.nodes[node_id2].outWard = None
-            self.nodes[node_id2].outWard = None
+            self.nodes[node_id1].inWard.pop(node_id1)
+            self.nodes[node_id2].outWard.pop(node_id2)
             self.mc = self.mc + 1
             return True
 
@@ -78,12 +78,8 @@ class Node:
         self.key = key
         self.outWard = {}
         self.inWard = {}
-        if pos:
-            self.x = None
-            self.y = None
-        else:
-            self.x = None
-            self.y = None
+        self.x = pos[0]
+        self.y = pos[1]
         self.color = color
         self.radius = radius
 
