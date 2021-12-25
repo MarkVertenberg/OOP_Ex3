@@ -74,9 +74,9 @@ class GraphAlgo(GraphAlgoInterface):
         for i in node_lst:
             n = self.bfs(self.graph, i)
             list.append(n)
-        return list,
+        return list
 
-        pass
+        
 
     def return_neighbor(self, s):
         visited = [False] * len(self.graph)
