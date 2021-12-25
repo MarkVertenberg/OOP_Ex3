@@ -42,8 +42,11 @@ class GraphAlgo(GraphAlgoInterface):
         pass
 
     def shortest_path(self, id1: int, id2: int):
-
-        return DIJKSTRA.shortest_path(self.graph, id1, id2)
+        try:
+            return DIJKSTRA.shortest_path(self.graph, id1, id2)
+        except ValueError as e:
+            print(e)
+        return float('inf'), []
 
     def TSP(self, node_lst: List[int]):
         pass

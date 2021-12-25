@@ -21,7 +21,7 @@ def check():
     """
     my_check()
     check0()
-    # check1()
+    check1()
     # check2()
 
 
@@ -30,9 +30,9 @@ def my_check():
     graph.add_node(0, (600, 550))
     graph.add_node(1, (550, 600))
     graph.add_node(2, (575, 580))
-    # graph.nodes[3] = Node(3, 39, 31)
-    # graph.nodes[4] = Node(4, 48, 32)
-    # graph.nodes[5] = Node(5, 41, 39)
+    graph.nodes[3] = Node(3, (39, 31))
+    graph.nodes[4] = Node(4, (48, 32))
+    graph.nodes[5] = Node(5, (41, 39))
     graph_algo = GraphAlgo(graph)
     graph_algo.plot_graph()
     graph.remove_node(2)
