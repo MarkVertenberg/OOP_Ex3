@@ -19,7 +19,7 @@ class Dijkstra:
 
     def reset(self, graph: GraphInterface, src_id: int):
         """ Updates the data to current graph and node. """
-        self.un_visited = graph.get_all_v().keys()
+        self.un_visited = list(graph.get_all_v().keys())
         self.shortest_dist_from_src = {}
         self.previous_node = {}
         self.shortest_dist_from_src[src_id] = 0
@@ -35,12 +35,13 @@ class Dijkstra:
         while self.un_visited.__len__() != 0:
             curr_node = self.min_dist_in_un_visited()
             out_edges = graph.all_out_edges_of_node(curr_node)
-            for dest in out_edges.keys():
-                if self.un_visited.__contains__(dest):
-                    total_dist_curr_to_dest = self.shortest_dist_from_src.get(curr_node) + out_edges[dest]
-                    if total_dist_curr_to_dest < self.shortest_dist_from_src.get(dest):
-                        self.shortest_dist_from_src[dest] = total_dist_curr_to_dest
-                        self.previous_node[dest] = curr_node
+            if out_edges:
+                for dest in out_edges.keys():
+                    if self.un_visited.__contains__(dest):
+                        total_dist_curr_to_dest = self.shortest_dist_from_src.get(curr_node) + out_edges[dest]
+                        if total_dist_curr_to_dest < self.shortest_dist_from_src.get(dest):
+                            self.shortest_dist_from_src[dest] = total_dist_curr_to_dest
+                            self.previous_node[dest] = curr_node
             self.un_visited.remove(curr_node)
 
     def min_dist_in_un_visited(self):
@@ -58,7 +59,7 @@ class Dijkstra:
             return self.shortest_dist_from_src[dest] != self.INFINITY
         raise ValueError("destination node not exist")
 
-    def shortest_path(self, graph, src, dest):
+    def shortest_path(self, graph: GraphInterface, src: int, dest: int):
         """ Returns tuple that consists the distance and the path of the shortest path from src to dest """
         self.do_algo(graph, src)
         distance = self.INFINITY

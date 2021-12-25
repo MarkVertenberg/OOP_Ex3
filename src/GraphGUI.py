@@ -20,9 +20,13 @@ LIGHT_YELLOW = (255, 253, 126)
 
 class GraphGUI:
 
+    WIDTH = WIDTH
+    HEIGHT = HEIGHT
+    REFRESH_RATE = REFRESH_RATE
+
     def __init__(self, graph_algo: GraphAlgoInterface = None):
         self.graph_algo = graph_algo
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.running = True
         self.clock = pygame.time.Clock()
         self.pixel_x = 1
@@ -39,7 +43,7 @@ class GraphGUI:
             self.start_screen()
 
     def start_screen(self):
-        load_button = Button(WHITE, (WIDTH / 2) - 125, (HEIGHT / 2) - 15, 250, 75, "Load Graph")
+        load_button = Button(WHITE, (self.WIDTH / 2) - 125, (self.HEIGHT / 2) - 15, 250, 75, "Load Graph")
         while self.running:
             self.screen.fill(WHITE)
             load_button.draw(self.screen)
@@ -52,14 +56,14 @@ class GraphGUI:
                 if event.type == pygame.QUIT:
                     self.running = False
             pygame.display.update()
-            self.clock.tick(REFRESH_RATE)
+            self.clock.tick(self.REFRESH_RATE)
         pygame.quit()
 
     def main_screen(self):
         list_buttons = create_buttons()
         while self.running:
             self.screen.fill(WHITE)
-            self.show_graph(WIDTH * 0.75, HEIGHT, self.graph_algo.get_graph())
+            self.show_graph(self.WIDTH * 0.75, self.HEIGHT, self.graph_algo.get_graph())
             self.show_buttons(list_buttons)
             for event in pygame.event.get():
                 for button in list_buttons:
@@ -67,7 +71,7 @@ class GraphGUI:
                 if event.type == pygame.QUIT:
                     self.running = False
             pygame.display.update()
-            self.clock.tick(REFRESH_RATE)
+            self.clock.tick(self.REFRESH_RATE)
         pygame.quit()
 
     def show_graph(self, width, height, graph: GraphInterface, outline=5):

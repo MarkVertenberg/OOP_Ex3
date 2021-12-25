@@ -78,8 +78,12 @@ class Node:
         self.key = key
         self.outWard = {}
         self.inWard = {}
-        self.x = pos[0]
-        self.y = pos[1]
+        if pos:
+            self.x = None
+            self.y = None
+        else:
+            self.x = None
+            self.y = None
         self.color = color
         self.radius = radius
 
