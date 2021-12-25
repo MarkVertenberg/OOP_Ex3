@@ -1,3 +1,5 @@
+from typing import List
+
 import pygame
 
 from graphics import *
@@ -69,6 +71,7 @@ class GraphGUI:
         pygame.quit()
 
     def show_graph(self, width, height, graph: GraphInterface, outline=5):
+        pygame.draw.rect(self.screen, BLACK, (0, 0, width, height), outline)
         max_range = 0.0
         min_rage = float('inf')
         nodes = graph.get_all_v().values()
@@ -85,15 +88,13 @@ class GraphGUI:
             start_x = outline + 20
             start_y = outline + 20
             self.pixel_x = (max_range - min_rage) / (width - start_x - outline - 20)
-            print(self.pixel_x)
             self.pixel_y = (max_range - min_rage) / (height - start_y - outline - 20)
             for node in nodes:
                 node.draw(self.screen, start_x, start_y, self.pixel_x, self.pixel_y, min_rage)
-            pygame.draw.rect(self.screen, BLACK, (0, 0, width, height), outline)
 
-    def show_buttons(self, buttons):
+    def show_buttons(self, buttons: List[Button]):
         for button in buttons:
-            button.draw(self.screen, 5)
+            button.draw(self.screen, 2)
 
 
 def create_buttons():

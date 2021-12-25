@@ -56,13 +56,16 @@ class Button:
         else:
             if outline:
                 pygame.draw.rect(screen, BLACK, (self.x, self.y, self.width, self.height), outline)
-            pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
+                pygame.draw.rect(screen, self.color, (self.x + outline, self.y + outline, self.width - (outline * 2), self.height - (outline * 2)))
+            else:
+                pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
 
             if self.text != '':
                 font = pygame.font.SysFont('comicsans', self.text_size)
                 text = font.render(self.text, True, self.text_color)
                 screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2),
                                    self.y + (self.height / 2 - text.get_height() / 2)))
+
 
     def is_over(self, pos):
         """ Pos is the mouse position or a tuple of (x,y) coordinates,

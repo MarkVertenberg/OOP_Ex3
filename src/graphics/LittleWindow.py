@@ -42,13 +42,13 @@ class LittleWindow:
     def draw(self, screen, outline):
         if outline:
             pygame.draw.rect(screen, BLACK, self.connected.get_rect(), outline)
-        pygame.draw.rect(screen, WHITE, self.connected.get_rect())
+
         if self.buttons:
             for button in self.buttons:
-                button.draw(screen, 4)
+                button.draw(screen, 2)
         if self.input_boxes:
             for input_box in self.input_boxes:
-                input_box.draw(screen, 4)
+                input_box.draw(screen, 2)
 
     def reset_data(self):
         if self.input_boxes:

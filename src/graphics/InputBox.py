@@ -42,7 +42,9 @@ class InputBox:
     def draw(self, screen, outline=None):
         if outline:
             pygame.draw.rect(screen, self.color_outline, (self.x, self.y, self.width, self.height), outline)
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, self.color, (self.x + outline, self.y + outline, self.width - (outline * 2), self.height - (outline * 2)))
+        else:
+            pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
 
         if self.text != '':
             font = pygame.font.SysFont('comicsans', self.text_size)
