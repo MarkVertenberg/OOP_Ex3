@@ -6,17 +6,17 @@ import random
 from GraphAlgoInterface import GraphAlgoInterface
 from GraphInterface import GraphInterface
 from Dijkstra import Dijkstra
+from src.DiGraph import DiGraph
 
 DIJKSTRA = Dijkstra()
 
 
 class GraphAlgo(GraphAlgoInterface):
 
-    def __init__(self, graph: GraphInterface = None, node: int = None, edge: int = None, weight: int = None):
+    def __init__(self, graph=DiGraph()) -> None:
         self.graph = graph
-        self.node = node
-        self.edge = edge
-        self.weight = weight
+        self.mc = 0
+        self.list = []
 
     def get_graph(self):
         return self.graph
@@ -70,66 +70,39 @@ class GraphAlgo(GraphAlgoInterface):
         return float('inf'), []
 
     def TSP(self, node_lst: List[int]):
-        list = []
-        for i in node_lst:
-            n = self.bfs(self.graph, i)
-            list.append(n)
-        return list
+        sum = 0
+        iterator = iter(node_lst)
+        for n in iterator:
+         k = next(iterator)
+         p = DIJKSTRA.shortest_path_(self.graph, n, k)
+         sum = sum + DIJKSTRA.shortest_path_dist(self.graph, n, k)
+         list.append(p)
 
-        
+        return list, sum
 
-    def return_neighbor(self, s):
-        visited = [False] * len(self.graph)
-        q = queue.Queue
-        q.put(s)
-        min = float('inf')
-        visited[s] = True
-
-        while not q.empty():
-            vert = q.get()
-            sum = 0
-            Neigh = None
-            for neighbor in self.graph[vert]:
-                if not visited[neighbor]:
-                    visited[neighbor] = True
-                    dis = Dijkstra.shortest_path_dist(self.graph, s, neighbor)
-                    if dis < min:
-                        min = dis
-                        sum = sum + min
-                        Neigh = neighbor
-
-        return Neigh, sum
-
-    def add_neighbor(self, src, dest):
-        self.graph.nodes[src].append(dest)
-
-    def bfs(self, s):
-        visited = [False] * len(self.graph)
-        q = queue.Queue
-        q.put(s)
-        min = float('inf')
-        visited[s] = True
-
-        while not q.empty():
-            vert = q.get()
-            for neighbor in self.graph[vert]:
-                if not visited[neighbor]:
-                    visited[neighbor] = True
-                    dis = DIJKSTRA.shortest_path_dist(self.graph, s, neighbor)
-                    if dis < min:
-                        min = dis
-        return min
+    #problem in out edges, dosent show the keys of outedges
+    def farthest_neighbor_of_node(self, src):
+        num = 0
+        dist = 0
+        visited = [False] * len(self.graph.nodes)
+        out_edges = self.graph.all_out_edges_of_node(src)
+        for neighbor in out_edges.keys():
+            if not visited[neighbor]:
+                dist = DIJKSTRA.shortest_path_dist(self.graph, src, neighbor)
+                visited[neighbor] = True
+                if num < dist:
+                    num = dist
+        return dist
 
     def centerPoint(self):
-        min = float('inf')
-        Center = None
+        min = float("inf")
+        N = None
         for Node in self.graph.nodes:
-            dis = self.bfs(self.graph, Node)
-            if dis < min:
-                min = dis
-                Center = Node
-
-        return Center
+          dis = self.farthest_neighbor_of_node(Node)
+          if dis < min:
+            min = dis
+            N = Node
+        return N, min
 
     def plot_graph(self):
         from GraphGUI import GraphGUI
