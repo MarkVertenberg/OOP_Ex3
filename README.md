@@ -20,6 +20,107 @@ ________________________________________________________________________________
 
 # Algorithm:
 
+The function below receives "graph" object of the DiGraph type and initializes it within the graph of the algorithm:
+
+    def __init__(self, graph=DiGraph()) -> None:
+      self.graph = graph
+      self.mc = 0
+      self.list = [int]
+    
+_________________________________________________________________________________________________________________________________________________________________________________
+The function below returns the graph(DiGraph type) of the algorithm:
+
+     def get_graph(self):
+         return self.graph
+    
+_________________________________________________________________________________________________________________________________________________________________________________
+The function below Computes the length of the shortest path between src to dest:
+
+    def shortest_path(self, id1: int, id2: int):
+        try:
+            return DIJKSTRA.shortest_path(self.graph, id1, id2)
+        except ValueError as e:
+            print(e)
+        return float('inf'), []
+    
+_________________________________________________________________________________________________________________________________________________________________________________ 
+The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, elese return null:
+
+    def centerPoint(self):
+        min = float("inf")
+        N = None
+        for Node in self.graph.nodes:
+          dis = self.farthest_neighbor_of_node(Node)
+          if dis < min:
+            min = dis
+            N = Node
+        return N, min
+    
+_________________________________________________________________________________________________________________________________________________________________________________ 
+The function below computes a list of consecutive nodes which go over all the nodes in cities.
+the sum of the weights of all the consecutive (pairs) of nodes (directed) is the "cost" of the solution - the lower the better:
+
+    def TSP(self, node_lst: List[int]):
+        sum = 0
+        path = []
+        if len(node_lst) > 0:
+            path.append(node_lst[0])
+            src = node_lst[0]
+            for node in node_lst[1:]:
+                algo = self.shortest_path(src, node)  # (dist, list(nodes))
+                pa = algo[1]
+                sum += algo[0]
+                src = node
+                for p in pa[1:]:
+                    path.append(p)
+        return path, sum
+    
+_________________________________________________________________________________________________________________________________________________________________________________
+The function below saves this weighted (directed) graph to the given:
+
+    def save_to_json(self, file_name: str):
+        with open(str) as json_file:
+            data = json.load(json_file)
+            temp = data["Nodes"]
+            for Node in self.graph.nodes.values():
+                if Node is not None:
+                    dist = f'{Node.pos[0]},{Node.pos[1]},{Node.pos[2]}'
+                    e = {"id": Node.key, "pos": dist}
+                    temp.append(e)
+            temp1 = data["Edges"]
+            for Edge in self.graph.edges:
+                src = f'{Edge[0]}'
+                dest = f'{Edge[1]}'
+                w = f'{Edge[2]}'
+                d = {"src": src, "dest": dest, "w": w}
+                temp1.append(d)
+        self.writejson(data, file_name)
+
+        pass
+
+    def writejson(data, file_name: str):
+        with open(file_name, "w") as f:
+            json.dump(data, f)
+
+_________________________________________________________________________________________________________________________________________________________________________________ 
+The function below loads a graph to this graph algorithm.if the file was successfully loaded - the underlying graph of this class will be changed (to the loaded one), in case the graph was not loaded the original graph should remain "as is":
+    
+     def load_from_json(self, file_name: str):
+        try:
+            with open(str) as f:
+                obj = json.load(f)
+                list = obj['Edges']
+                for i in range(len(list)):
+                    self.graph.add_edge(list[i].get("src"), list[i].get("w"), list.get("dest"))
+
+                list1 = obj['Nodes']
+                for i in range(len(list)):
+                    self.graph.add_node(list1[i].get("id"), list1[i].get("pos"))
+
+                    return True
+
+        except:
+            return False
 
  # UML:
 
