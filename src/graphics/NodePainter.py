@@ -17,6 +17,7 @@ class NodePainter:
     def __init__(self, node: Node, radius=15, outline=2, color=LIGHT_YELLOW):
         from src.graphics.Scale import Scale
         self.node = node
+        self.out_edges = []
         self.radius = radius
         self.outline = outline
         self.color = color
@@ -35,8 +36,9 @@ class NodePainter:
                 self.over = False
 
     def draw(self, screen, start_x, start_y, original_width, original_height, graph, outline=2):
-        self.scaler.__init__(start_x + outline, start_y + outline, original_width - outline, original_height - outline, graph, self)
-        self.new_x, self.new_y= self.scaler.scale_node()
+        self.scaler.__init__(start_x + outline, start_y + outline, original_width - outline, original_height - outline,
+                             graph, self)
+        self.new_x, self.new_y = self.scaler.scale_node()
         self.text.x = self.new_x
         self.text.y = self.new_y
         pygame.draw.circle(screen, BLACK, (self.new_x, self.new_y), self.radius + outline)
@@ -47,6 +49,10 @@ class NodePainter:
             pygame.draw.circle(screen, LIGHT_YELLOW, (self.new_x, self.new_y), self.radius)
             self.text.text = str(self.node.get_key())
         self.text.draw(screen)
+
+        self.update_edges(graph)
+        for edge in self.out_edges:
+            edge.draw(screen)
 
     def set_radius(self, radius):
         pass
@@ -61,3 +67,10 @@ class NodePainter:
             a = pos[0] - self.new_x
             b = pos[1] - self.new_y
         return math.pow(a, 2) + math.pow(b, 2) <= math.pow(self.radius, 2)
+
+    def update_edges(self, graph):
+        from src.graphics.EdgePainter import EdgePainter
+        self.out_edges = []
+        if self.node:
+            for dest in list(self.node.outWard.keys()):
+                self.out_edges.append(EdgePainter(self, graph.get_all_v().get(dest).painter, self.node.outWard.get(dest)))

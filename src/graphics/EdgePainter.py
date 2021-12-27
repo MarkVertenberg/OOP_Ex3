@@ -1,18 +1,38 @@
+import math
+
+import pygame.draw
+
 from src.graphics.NodePainter import NodePainter
+from src.graphics.Text import Text
 
 BLACK = (0, 0, 0)
 
 
 class EdgePainter:
 
-    def __init__(self, src: NodePainter, dest, weight, color=BLACK, text=''):
-        self.src_x = src.x
-        self.src_y = src.y
-        self.dest_x = dest.x
-        self.dest_y = dest.y
+    def __init__(self, src: NodePainter, dest: NodePainter, weight, color=BLACK):
+        self.src = src
+        self.dest = dest
+        self.start_x, self.start_y, self.stop_x, self.stop_y = self.start_pos()
         self.color = color
-        self.text = Text(node.get_x(), node.get_y(), str(self.node.get_key()))
+        self.text = None
+        self.weight = weight
         self.over = False
-        self.scaler = Scale()
-        self.new_x = None
-        self.new_y = None
+
+    def start_pos(self):
+        if self.dest.new_x and self.dest.new_y:
+            dx = self.dest.new_x - self.src.new_x
+            dy = self.dest.new_y - self.src.new_y
+            a = math.tan(dy / dx)
+            s_h = math.sin(a) * self.src.radius
+            s_w = math.cos(a) * self.src.radius
+            d_h = math.sin(a) * self.dest.radius
+            d_w = math.cos(a) * self.dest.radius
+            return self.src.new_x + s_w, self.src.new_y + s_h, self.dest.new_x - d_w, self.dest.new_y - d_h
+        return None, None, None, None
+
+    def draw(self, screen):
+        self.start_x, self.start_y, self.stop_x, self.stop_y = self.start_pos()
+        if self.dest.new_x and self.dest.new_y:
+            pygame.draw.line(screen, self.color, (self.start_x, self.start_y), (self.stop_x, self.stop_y))
+
