@@ -4,7 +4,6 @@ import pygame
 
 from src.graphics.InputBox import InputBox
 from src.graphics.Text import Text
-from src.GraphAlgo import GraphAlgoInterface
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -19,7 +18,7 @@ class LittleWindow:
         self.related = related
         self.input_boxes = input_boxes
         self.button = button
-        self.massage = Text(100, 50, "Test")
+        self.massage = Text(160, 60, "Text")
         self.function = function
         if related:
             if self.button:
@@ -40,7 +39,8 @@ class LittleWindow:
         if self.button:
             self.button.handle_event(event)
             if self.button.is_clicked:
-                self.function()
+                self.massage.text = "button Clicked"
+                # self.function()
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.handle_event(event)
@@ -48,12 +48,15 @@ class LittleWindow:
     def draw(self, screen, outline):
         if outline:
             pygame.draw.rect(screen, BLACK, self.related.get_rect(), outline)
+        print(self.massage.text)
+        if self.massage.text != '':
+            print("passed")
+            self.massage.draw(screen)
         if self.button:
             self.button.draw(screen, 2)
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.draw(screen, 2)
-        self.massage.draw(screen)
 
     def reset_data(self):
         if self.input_boxes:

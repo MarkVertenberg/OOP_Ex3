@@ -35,9 +35,9 @@ class InputBox:
         if event.type == pygame.KEYDOWN:
             if self.active:
                 if event.key == pygame.K_BACKSPACE:
-                    self.text = self.text[:-1]
+                    self.text.text = self.text.text[:-1]
                 else:
-                    self.text += event.unicode
+                    self.text.text += event.unicode
 
     def draw(self, screen, outline=None):
         if outline:
@@ -47,9 +47,9 @@ class InputBox:
             pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
 
         self.reset_pos_text()
-        if self.text != '':
+        if self.text.text != '':
             self.text.draw(screen, top_left=True)
-        elif not self.active:
+        elif not self.active and self.massage.text != '':
             self.massage.draw(screen, top_left=True)
 
     def is_over(self, pos):
@@ -61,7 +61,7 @@ class InputBox:
         return False
 
     def reset_pos_text(self):
-        self.text.x = self.x
-        self.text.y = self.y
-        self.massage.x = self.x
-        self.massage.y = self.y
+        self.text.x = self.x + 5
+        self.text.y = self.y + 5
+        self.massage.x = self.x + 5
+        self.massage.y = self.y + 5

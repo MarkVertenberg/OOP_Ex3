@@ -43,6 +43,4 @@ class Scale:
     def calculate_pixel(self):
         pixel_x = (self.max - self.min) / (self.original_width - self.start_x - self.node.get_radius())
         pixel_y = (self.max - self.min) / (self.original_height - self.start_y - self.node.get_radius())
-        print(pixel_x)
-        print(pixel_y)
         return pixel_x, pixel_y

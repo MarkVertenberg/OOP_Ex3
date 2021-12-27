@@ -74,7 +74,7 @@ class GraphAlgo(GraphAlgoInterface):
         iterator = iter(node_lst)
         for n in iterator:
          k = next(iterator)
-         p = DIJKSTRA.shortest_path_(self.graph, n, k)
+         p = DIJKSTRA.shortest_path(self.graph, n, k)
          sum = sum + DIJKSTRA.shortest_path_dist(self.graph, n, k)
          list.append(p)
 
