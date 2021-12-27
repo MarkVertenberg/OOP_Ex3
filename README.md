@@ -28,13 +28,13 @@ ________________________________________________________________________________
       self.list = [int]
     
 _________________________________________________________________________________________________________________________________________________________________________________
-- The function below returns the graph(DiGraph type) of the algorithm:
+The function below returns the graph(DiGraph type) of the algorithm:
 
      def get_graph(self):
          return self.graph
     
 _________________________________________________________________________________________________________________________________________________________________________________
-- The function below Computes the length of the shortest path between src to dest:
+The function below Computes the length of the shortest path between src to dest:
 
     def shortest_path(self, id1: int, id2: int):
         try:
@@ -44,7 +44,7 @@ ________________________________________________________________________________
         return float('inf'), []
     
 _________________________________________________________________________________________________________________________________________________________________________________ 
-- The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, elese return null:
+The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, elese return null:
 
     def centerPoint(self):
         min = float("inf")
@@ -57,7 +57,7 @@ ________________________________________________________________________________
         return N, min
     
 _________________________________________________________________________________________________________________________________________________________________________________ 
-- The function below computes a list of consecutive nodes which go over all the nodes in cities.
+The function below computes a list of consecutive nodes which go over all the nodes in cities.
 the sum of the weights of all the consecutive (pairs) of nodes (directed) is the "cost" of the solution - the lower the better:
 
     def TSP(self, node_lst: List[int]):
@@ -76,7 +76,7 @@ the sum of the weights of all the consecutive (pairs) of nodes (directed) is the
         return path, sum
     
 _________________________________________________________________________________________________________________________________________________________________________________
-- The function below saves this weighted (directed) graph to the given:
+The function below saves this weighted (directed) graph to the given:
 
     def save_to_json(self, file_name: str):
         with open(str) as json_file:
@@ -103,7 +103,7 @@ ________________________________________________________________________________
             json.dump(data, f)
 
 _________________________________________________________________________________________________________________________________________________________________________________ 
-- The function below loads a graph to this graph algorithm.if the file was successfully loaded - the underlying graph of this class will be changed (to the loaded one), in case the graph was not loaded the original graph should remain "as is":
+The function below loads a graph to this graph algorithm.if the file was successfully loaded - the underlying graph of this class will be changed (to the loaded one), in case the graph was not loaded the original graph should remain "as is":
     
      def load_from_json(self, file_name: str):
         try:
