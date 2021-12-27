@@ -64,10 +64,6 @@ class DiGraph(GraphInterface):
         return False
 
 
-BLACK = (0, 0, 0)
-LIGHT_YELLOW = (255, 253, 126)
-
-
 class Node:
     def __init__(self, key, pos: tuple = None):
         from src.graphics.NodePainter import NodePainter

@@ -72,20 +72,18 @@ class GraphAlgo(GraphAlgoInterface):
     def TSP(self, node_lst: List[int]):
         sum = 0
         path = []
-        iterator = iter(node_lst)
-        i = 0
-        for n in iterator:
-         i = i+1
-         if i<2:
-            k = next(iterator)
-         p = DIJKSTRA.shortest_path_(self.graph, n, k)
-         sum = sum + DIJKSTRA.shortest_path_dist(self.graph, n, k)
-
-         path.append(p)
-
-
-
-        return path
+        src = None
+        for node in node_lst:
+            if not src:
+                src = node
+            else:
+                algo = self.shortest_path(src, node)  # (dist, list(nodes))
+                pa = algo[1]
+                sum += algo[0]
+                src = node
+                for p in pa:
+                    path.append(p)
+        return path, sum
 
     #problem in out edges, dosent show the keys of outedges
     def farthest_neighbor_of_node(self, src):
@@ -95,7 +93,7 @@ class GraphAlgo(GraphAlgoInterface):
         out_edges = self.graph.all_out_edges_of_node(src)
         for neighbor in out_edges.keys():
             if not visited[neighbor]:
-                dist = DIJKSTRA.shortest_path_dist(self.graph, src, neighbor)
+                dist = self.shortest_path(src, neighbor)[0]
                 visited[neighbor] = True
                 if num < dist:
                     num = dist
@@ -118,4 +116,4 @@ class GraphAlgo(GraphAlgoInterface):
             if not node.get_y() and not node.get_x():
                 node.x = random.randint(0, gui.WIDTH)
                 node.y = random.randint(0, gui.HEIGHT)
-        gui.run_gui()
+        gui.plot_graph()
