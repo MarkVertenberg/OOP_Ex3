@@ -29,7 +29,7 @@ class Dijkstra:
 
     def do_algo(self, graph: GraphInterface, src_id: int):
         """ Dijkstra's algorithm """
-        if not graph or not graph.get_all_v().keys().__contains__(src_id):
+        if graph is None or not graph.get_all_v().keys().__contains__(src_id):
             raise ValueError("source node not exist")
         self.reset(graph, src_id)
         while self.un_visited.__len__() != 0:

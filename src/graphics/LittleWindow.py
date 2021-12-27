@@ -3,6 +3,8 @@ from typing import List
 import pygame
 
 from src.graphics.InputBox import InputBox
+from src.graphics.Text import Text
+from src.GraphAlgo import GraphAlgoInterface
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -13,44 +15,48 @@ LIGHT_YELLOW = (255, 253, 126)
 
 class LittleWindow:
 
-    def __init__(self, input_boxes: List[InputBox] = None, buttons=None, connected=None):
-        self.connected = connected
+    def __init__(self, input_boxes: List[InputBox] = None, button=None, related=None, function=None):
+        self.related = related
         self.input_boxes = input_boxes
-        self.buttons = buttons
-        if connected:
-            if self.buttons:
-                for button in self.buttons:
-                    button.x += self.connected.x
-                    button.y += self.connected.y
+        self.button = button
+        self.massage = Text(100, 50, "Test")
+        self.function = function
+        if related:
+            if self.button:
+                self.button.x += self.related.x
+                self.button.y += self.related.y
             if self.input_boxes:
                 for input_box in self.input_boxes:
-                    input_box.x += self.connected.x
-                    input_box.y += self.connected.y
+                    input_box.x += self.related.x
+                    input_box.y += self.related.y
+            self.massage.x += self.related.x
+            self.massage.y += self.related.y
 
     def handle_event(self, event):
         pos = pygame.mouse.get_pos()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if not self.connected.is_over(pos):
-                self.connected.is_clicked = False
-        if self.buttons:
-            for button in self.buttons:
-                button.handle_event(event)
+            if not self.related.is_over(pos):
+                self.related.is_clicked = False
+        if self.button:
+            self.button.handle_event(event)
+            if self.button.is_clicked:
+                self.function()
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.handle_event(event)
 
     def draw(self, screen, outline):
         if outline:
-            pygame.draw.rect(screen, BLACK, self.connected.get_rect(), outline)
-
-        if self.buttons:
-            for button in self.buttons:
-                button.draw(screen, 2)
+            pygame.draw.rect(screen, BLACK, self.related.get_rect(), outline)
+        if self.button:
+            self.button.draw(screen, 2)
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.draw(screen, 2)
+        self.massage.draw(screen)
 
     def reset_data(self):
         if self.input_boxes:
             for input_box in self.input_boxes:
-                input_box.text = ''
+                input_box.text.text = ''
+        self.massage.text = ''

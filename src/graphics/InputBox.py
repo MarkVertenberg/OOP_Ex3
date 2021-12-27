@@ -1,5 +1,7 @@
 import pygame
 
+from src.graphics.Text import Text
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 SKY_BLUE = (75, 118, 229)
@@ -15,12 +17,10 @@ class InputBox:
         self.y = y
         self.width = width
         self.height = height
-        self.massage = massage
-        self.text = text
+        self.massage = Text(x, y, massage, text_size, text_color)
+        self.text = Text(x, y, text, text_size, text_color)
         self.color = color
         self.color_outline = color_outline
-        self.text_size = text_size
-        self.text_color = text_color
         self.active = False
 
     def handle_event(self, event):
@@ -46,14 +46,11 @@ class InputBox:
         else:
             pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
 
+        self.reset_pos_text()
         if self.text != '':
-            font = pygame.font.SysFont('comicsans', self.text_size)
-            text = font.render(self.text, True, self.text_color)
-            screen.blit(text, (self.x + 5, self.y + 5))
+            self.text.draw(screen, top_left=True)
         elif not self.active:
-            font = pygame.font.SysFont('comicsans', self.text_size)
-            text = font.render(self.massage, True, self.text_color)
-            screen.blit(text, (self.x + 5, self.y + 5))
+            self.massage.draw(screen, top_left=True)
 
     def is_over(self, pos):
         """ Pos is the mouse position or a tuple of (x,y) coordinates,
@@ -62,3 +59,9 @@ class InputBox:
             if self.y < pos[1] < self.y + self.height:
                 return True
         return False
+
+    def reset_pos_text(self):
+        self.text.x = self.x
+        self.text.y = self.y
+        self.massage.x = self.x
+        self.massage.y = self.y

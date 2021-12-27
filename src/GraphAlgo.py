@@ -34,7 +34,6 @@ class GraphAlgo(GraphAlgoInterface):
                     self.graph.add_node(list1[i].get("id"), list1[i].get("pos"))
 
                     return True
-
         except:
             return False
 
@@ -66,7 +65,7 @@ class GraphAlgo(GraphAlgoInterface):
             for neighbor in self.graph[vert]:
                 if not visited[neighbor]:
                     visited[neighbor] = True
-                    dis = Dijkstra.shortest_path_dist(self.graph, s, neighbor)
+                    dis = DIJKSTRA.shortest_path(self.graph, s, neighbor)[0]
                     if dis < min:
                         min = dis
         return min
@@ -84,7 +83,8 @@ class GraphAlgo(GraphAlgoInterface):
         from GraphGUI import GraphGUI
         gui = GraphGUI(self)
         for node in self.graph.get_all_v().values():
-            if not node.get_y() and not node.get_x():
-                node.x = random.randint(0, gui.WIDTH)
+            if node.get_x() is None:
+                node.x = random.randint(0, gui.GRAPH_WIDTH)
+            if node.get_y() is None:
                 node.y = random.randint(0, gui.HEIGHT)
-        gui.run_gui()
+        gui.plot_graph()
