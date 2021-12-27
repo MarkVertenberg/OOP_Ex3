@@ -18,12 +18,14 @@ class GraphAlgo(GraphAlgoInterface):
         self.mc = 0
         self.list = [int]
 
+
     def get_graph(self):
         return self.graph
 
     def load_from_json(self, file_name: str):
         try:
             self.graph = DiGraph()
+
             with open(file_name, "r") as fp:
                 obj = json.load(fp)
                 for n in obj["Nodes"]:
@@ -33,7 +35,7 @@ class GraphAlgo(GraphAlgoInterface):
                         x = float(m[0])
                         y = float(m[1])
                         z = float(m[2])
-                        self.graph.add_node(t, x, y, z)
+                        self.graph.add_node(t, (x, y, z))
                     else:
                         self.graph.add_node(t)
                 for e in obj["Edges"]:
@@ -46,7 +48,6 @@ class GraphAlgo(GraphAlgoInterface):
 
         return True
 
-
     def save_to_json(self, file_name: str):
         try:
             file = open(file_name, 'w')
@@ -56,9 +57,9 @@ class GraphAlgo(GraphAlgoInterface):
         except IOError:
             return False
 
-
     def savefile(self):
         Edges = []
+
         for e in self.graph.edges:
             src = e[0]
             dest = e[1]
@@ -72,11 +73,10 @@ class GraphAlgo(GraphAlgoInterface):
                 Nodes.append({"id": id, "pos": pos})
             else:
                 Nodes.append({"id": n.key, "pos": None})
-                list = {}
-        list["Edges"] = Edges
-        list["Nodes"] = Nodes
-        return list
-
+        List = {}
+        List["Edges"] = Edges
+        List["Nodes"] = Nodes
+        return List
 
     def shortest_path(self, id1: int, id2: int):
         try:
