@@ -21,22 +21,27 @@ class DiGraph(GraphInterface):
         return self.nodes
 
     def all_in_edges_of_node(self, id1: int):
-        return self.nodes[id1].inWard
+        if self.nodes.get(id1) is not None:
+            return self.nodes[id1].inWard
+        return {}
 
     def all_out_edges_of_node(self, id1: int):
-        return self.nodes[id1].outWard
+        if self.nodes.get(id1) is not None:
+            return self.nodes[id1].outWard
+        return {}
 
     def get_mc(self):
         return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float):
-        if id1 in self.nodes and id2 in self.nodes:
+        if id1 not in self.nodes or id2 not in self.nodes:
+            return False
+        if self.edges.get((id1, id2)) is None:
             self.edges[(id1, id2)] = weight
             self.nodes[id1].outWard[id2] = weight
             self.nodes[id2].inWard[id1] = weight
-            self.mc = self.mc + 1
-            return True
-        return False
+        self.mc = self.mc + 1
+        return True
 
     def add_node(self, node_id: int, pos: tuple = None):
         if self.nodes.get(node_id) is None:
@@ -47,6 +52,13 @@ class DiGraph(GraphInterface):
 
     def remove_node(self, node_id: int):
         if self.nodes[node_id] is not None:
+            to_remove = []
+            for from_out in self.nodes[node_id].inWard:
+                to_remove.append((from_out, node_id))
+            for to_dest in self.nodes[node_id].outWard:
+                to_remove.append((node_id, to_dest))
+            for edge in to_remove:
+                self.remove_edge(edge[0], edge[1])
             self.nodes.pop(node_id)
             self.mc = self.mc + 1
             return True
@@ -56,6 +68,7 @@ class DiGraph(GraphInterface):
         if node_id1 in self.nodes[node_id2].inWard and node_id2 in self.nodes[node_id1].outWard:
             self.nodes[node_id1].outWard.pop(node_id2)
             self.nodes[node_id2].inWard.pop(node_id1)
+            self.edges.pop((node_id1, node_id2))
             self.mc += 1
             return True
         return False

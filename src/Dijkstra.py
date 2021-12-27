@@ -55,7 +55,7 @@ class Dijkstra:
     def is_there_path(self, dest):
         """ Returns if there is path from src to dest
             Note: this function need to be used on graph that passed through the algorithm """
-        if self.shortest_dist_from_src[dest] is not None:
+        if self.shortest_dist_from_src.get(dest) is not None:
             return self.shortest_dist_from_src[dest] != self.INFINITY
         raise ValueError("destination node not exist")
 
