@@ -81,6 +81,7 @@ class Node:
         self.key = key
         self.outWard = {}
         self.inWard = {}
+        self.pos = pos
         self.x = None
         self.y = None
         if pos:

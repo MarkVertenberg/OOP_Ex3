@@ -18,6 +18,7 @@ class GraphAlgo(GraphAlgoInterface):
         self.mc = 0
         self.list = [int]
 
+
     def get_graph(self):
         return self.graph
 
@@ -47,30 +48,35 @@ class GraphAlgo(GraphAlgoInterface):
 
         return True
 
-
     def save_to_json(self, file_name: str):
-        with open(str) as json_file:
-            data = json.load(json_file)
-            temp = data["Nodes"]
-            for Node in self.graph.nodes.values():
-                if Node is not None:
-                    dist = f'{Node.pos[0]},{Node.pos[1]},{Node.pos[2]}'
-                    e = {"id": Node.key, "pos": dist}
-                    temp.append(e)
-            temp1 = data["Edges"]
-            for Edge in self.graph.edges:
-                src = f'{Edge[0]}'
-                dest = f'{Edge[1]}'
-                w = f'{Edge[2]}'
-                d = {"src": src, "dest": dest, "w": w}
-                temp1.append(d)
-        self.writejson(data, file_name)
+        try:
+            file = open(file_name, 'w')
+            file.write(json.dumps(self.savefile()))
+            file.close()
+            return True
+        except IOError:
+            return False
 
-        pass
+    def savefile(self):
+        Edges = []
 
-    def writejson(data, file_name: str):
-        with open(file_name, "w") as f:
-            json.dump(data, f)
+        for e in self.graph.edges:
+            src = e[0]
+            dest = e[1]
+            w = self.graph.edges[e]
+            Edges.append({"src": src, "dest": dest, "w": w})
+            Nodes = []
+        for n in self.graph.nodes.values():
+            if n.pos is not None:
+                id = n.key
+                pos = f'{n.pos[0]},{n.pos[1]},{n.pos[2]}'
+                Nodes.append({"id": id, "pos": pos})
+            else:
+                Nodes.append({"id": n.key, "pos": None})
+        List = {}
+        List["Edges"] = Edges
+        List["Nodes"] = Nodes
+        return List
 
     def shortest_path(self, id1: int, id2: int):
         try:
