@@ -11,11 +11,11 @@ A directed graph is a graph, a set of objects (called vertices or nodes) that ar
 An edge-weighted graph is a graph in which each edge has been assigned a ***weight**. Similarly, a vertex-weighted graph is a graph in which each vertex has been assigned a weight. In such graphs, the quantity represented by a weight depends on the application. In many applications, each edge of a graph has an associated numerical value, called a weight. Usually, the edge weights are nonnegative integers. Weighted graphs may be either directed or undirected. The weight of an edge is often referred to as the "cost" of the edge. In applications, the weight may be a measure of the length of a route, the capacity of a line, the energy required to move between locations along a route, etc.the combination of Directed Graphs and Edge-Weighted Graphs is called Edge-Weighted Digraphs.
 
 ______________________________________________________________________________________________________________________________________________________________________________
-***Vertex** – Is a node on a graph. 
+- **Vertex** – Is a node on a graph. 
 
-***Directed Edge** – Is a link between two vertices. Directed edge is always pointing the same way. It has a source and a destination. 
+- **Directed Edge** – Is a link between two vertices. Directed edge is always pointing the same way. It has a source and a destination. 
 
-***Weight** – Represents the cost of the edge.
+- **Weight** – Represents the cost of the edge.
 ______________________________________________________________________________________________________________________________________________________________________________
 
 # Algorithm:
