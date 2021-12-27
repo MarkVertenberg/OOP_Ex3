@@ -28,11 +28,18 @@ class EdgePainter:
             s_w = math.cos(a) * self.src.radius
             d_h = math.sin(a) * self.dest.radius
             d_w = math.cos(a) * self.dest.radius
-            return self.src.new_x + s_w, self.src.new_y + s_h, self.dest.new_x - d_w, self.dest.new_y - d_h
+            if dx > 0 and dy > 0:
+                return self.src.new_x + s_w, self.src.new_y + s_h, self.dest.new_x - d_w, self.dest.new_y - d_h
+            if dx > 0 and dy < 0:
+                return self.src.new_x + s_w, self.src.new_y - s_h, self.dest.new_x - d_w, self.dest.new_y + d_h
+            if dx < 0 and dy > 0:
+                return self.src.new_x - s_w, self.src.new_y + s_h, self.dest.new_x + d_w, self.dest.new_y - d_h
+            else:
+                return self.src.new_x - s_w, self.src.new_y - s_h, self.dest.new_x + d_w, self.dest.new_y + d_h
         return None, None, None, None
 
-    def draw(self, screen):
+    def draw(self, screen, outline=2):
         self.start_x, self.start_y, self.stop_x, self.stop_y = self.start_pos()
-        if self.dest.new_x and self.dest.new_y:
-            pygame.draw.line(screen, self.color, (self.start_x, self.start_y), (self.stop_x, self.stop_y))
+        if self.start_x:
+            pygame.draw.line(screen, self.color, (self.start_x, self.start_y), (self.stop_x, self.stop_y), outline)
 
