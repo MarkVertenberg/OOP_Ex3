@@ -20,7 +20,7 @@ ________________________________________________________________________________
 
 # Algorithm:
 
-- The function below receives "graph" object of the DiGraph type and initializes it within the graph of the algorithm:
+The function below receives "graph" object of the DiGraph type and initializes it within the graph of the algorithm:
 
     def __init__(self, graph=DiGraph()) -> None:
       self.graph = graph
