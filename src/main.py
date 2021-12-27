@@ -114,7 +114,7 @@ def check3():
     g.add_edge(1, 3, 1.9)
     g.add_edge(2, 3, 1.1)
     g.add_edge(3, 4, 2.1)
-    g.add_edge(4, 2, .5)
+    g.add_edge(4, 2, 0.5)
     g_algo = GraphAlgo(g)
     print(g_algo.centerPoint())
     print(g_algo.TSP([1, 2, 4]))

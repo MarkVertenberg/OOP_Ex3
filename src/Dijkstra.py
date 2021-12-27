@@ -36,7 +36,7 @@ class Dijkstra:
             curr_node = self.min_dist_in_un_visited()
             out_edges = graph.all_out_edges_of_node(curr_node)
             if out_edges:
-                for dest in out_edges.keys():
+                for dest in list(out_edges.keys()):
                     if self.un_visited.__contains__(dest):
                         total_dist_curr_to_dest = self.shortest_dist_from_src.get(curr_node) + out_edges[dest]
                         if total_dist_curr_to_dest < self.shortest_dist_from_src.get(dest):
@@ -74,7 +74,7 @@ class Dijkstra:
             Note: this function need to be used on graph that passed through the algorithm """
         path = []
         curr_node = dest
-        while self.previous_node[curr_node] != src:
+        while curr_node != src:
             path.append(curr_node)
             curr_node = self.previous_node[curr_node]
         path.append(src)

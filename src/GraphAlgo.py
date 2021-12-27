@@ -72,16 +72,15 @@ class GraphAlgo(GraphAlgoInterface):
     def TSP(self, node_lst: List[int]):
         sum = 0
         path = []
-        src = None
-        for node in node_lst:
-            if not src:
-                src = node
-            else:
+        if len(node_lst) > 0:
+            path.append(node_lst[0])
+            src = node_lst[0]
+            for node in node_lst[1:]:
                 algo = self.shortest_path(src, node)  # (dist, list(nodes))
                 pa = algo[1]
                 sum += algo[0]
                 src = node
-                for p in pa:
+                for p in pa[1:]:
                     path.append(p)
         return path, sum
 
