@@ -23,20 +23,30 @@ class GraphAlgo(GraphAlgoInterface):
 
     def load_from_json(self, file_name: str):
         try:
-            with open(str) as f:
-                obj = json.load(f)
-                list = obj['Edges']
-                for i in range(len(list)):
-                    self.graph.add_edge(list[i].get("src"), list[i].get("w"), list.get("dest"))
+            self.graph = DiGraph()
 
-                list1 = obj['Nodes']
-                for i in range(len(list)):
-                    self.graph.add_node(list1[i].get("id"), list1[i].get("pos"))
-
-                    return True
-
+            with open(file_name, "r") as fp:
+                obj = json.load(fp)
+                for n in obj["Nodes"]:
+                    t = int(n["id"])
+                    if "pos" in n:
+                        m = n["pos"].split(',')
+                        x = float(m[0])
+                        y = float(m[1])
+                        z = float(m[2])
+                        self.graph.add_node(t, x, y, z)
+                    else:
+                        self.graph.add_node(t)
+                for e in obj["Edges"]:
+                    src = int(e["src"])
+                    dest = int(e["dest"])
+                    w = float(e["w"])
+                    self.graph.add_edge(src, dest, w)
         except:
             return False
+
+        return True
+
 
     def save_to_json(self, file_name: str):
         with open(str) as json_file:
