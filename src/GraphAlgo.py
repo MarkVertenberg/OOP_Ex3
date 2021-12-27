@@ -34,7 +34,7 @@ class GraphAlgo(GraphAlgoInterface):
                         x = float(m[0])
                         y = float(m[1])
                         z = float(m[2])
-                        self.graph.add_node(t, x, y, z)
+                        self.graph.add_node(t, (x, y, z))
                     else:
                         self.graph.add_node(t)
                 for e in obj["Edges"]:

@@ -14,7 +14,7 @@ LIGHT_YELLOW = (255, 253, 126)
 
 class NodePainter:
 
-    def __init__(self, node: Node, radius=20, outline=2, color=LIGHT_YELLOW):
+    def __init__(self, node: Node, radius=15, outline=2, color=LIGHT_YELLOW):
         from src.graphics.Scale import Scale
         self.node = node
         self.radius = radius

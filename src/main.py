@@ -21,8 +21,8 @@ def check():
     """
     # my_check()
     check0()
-    # check1()
-    # check2()
+    check1()
+    check2()
     check3()
 
 
@@ -75,7 +75,7 @@ def check1():
     print(g_algo.shortest_path(0, 3))
     print(g_algo.shortest_path(3, 1))
     print(g_algo.centerPoint())
-    g_algo.save_to_json(file + '_saved')
+    # g_algo.save_to_json(file + '_saved')
     g_algo.plot_graph()
 
 
@@ -87,7 +87,7 @@ def check2():
     file = '../data/A5.json'
     g_algo.load_from_json(file)
     g_algo.get_graph().remove_edge(13, 14)
-    g_algo.save_to_json(file + "_edited")
+    # g_algo.save_to_json(file + "_edited")
     dist, path = g_algo.shortest_path(1, 7)
     print(dist, path)
     dist, path = g_algo.shortest_path(47, 19)

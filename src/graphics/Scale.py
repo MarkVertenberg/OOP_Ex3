@@ -15,32 +15,34 @@ class Scale:
             self.start_x += node.radius
             self.start_y += node.radius
         if self.graph:
-            self.min, self.max = self.find_min_and_max()
+            self.min_x, self.max_x, self.min_y, self.max_y = self.find_min_and_max()
             self.pixel_x, self.pixel_y = self.calculate_pixel()
 
     def scale_node(self):
-        new_x = ((self.node.node.get_x() - self.min) / self.pixel_x) + self.start_x
-        new_y = ((self.node.node.get_y() - self.min) / self.pixel_y) + self.start_y
+        new_x = ((self.node.node.get_x() - self.min_x) / self.pixel_x) + self.start_x
+        new_y = ((self.node.node.get_y() - self.min_y) / self.pixel_y) + self.start_y
         return new_x, new_y
 
     def find_min_and_max(self):
         if self.graph:
-            max_range = 0.0
-            min_rage = float('inf')
+            max_range_x = 0.0
+            min_rage_x = float('inf')
+            max_range_y = 0.0
+            min_rage_y = float('inf')
             nodes = list(self.graph.get_all_v().values())
             if len(nodes) > 0:
                 for node in nodes:
-                    if node.get_x() > max_range:
-                        max_range = node.get_x()
-                    if node.get_x() < min_rage:
-                        min_rage = node.get_x()
-                    if node.get_y() > max_range:
-                        max_range = node.get_y()
-                    if node.get_y() < min_rage:
-                        min_rage = node.get_y()
-            return min_rage, max_range
+                    if node.get_x() > max_range_x:
+                        max_range_x = node.get_x()
+                    if node.get_x() < min_rage_x:
+                        min_rage_x = node.get_x()
+                    if node.get_y() > max_range_y:
+                        max_range_y = node.get_y()
+                    if node.get_y() < min_rage_y:
+                        min_rage_y = node.get_y()
+            return min_rage_x, max_range_x, min_rage_y, max_range_y
 
     def calculate_pixel(self):
-        pixel_x = (self.max - self.min) / (self.original_width - self.start_x - self.node.get_radius())
-        pixel_y = (self.max - self.min) / (self.original_height - self.start_y - self.node.get_radius())
+        pixel_x = (self.max_x - self.min_x) / (self.original_width - self.start_x - self.node.get_radius())
+        pixel_y = (self.max_y - self.min_y) / (self.original_height - self.start_y - self.node.get_radius())
         return pixel_x, pixel_y

@@ -65,12 +65,13 @@ class DiGraph(GraphInterface):
         return False
 
     def remove_edge(self, node_id1: int, node_id2: int):
-        if node_id1 in self.nodes[node_id2].inWard and node_id2 in self.nodes[node_id1].outWard:
-            self.nodes[node_id1].outWard.pop(node_id2)
-            self.nodes[node_id2].inWard.pop(node_id1)
-            self.edges.pop((node_id1, node_id2))
-            self.mc += 1
-            return True
+        if self.nodes.get(node_id1) is not None and self.nodes.get(node_id2) is not None:
+            if self.nodes[node_id2].inWard.get(node_id1) and self.nodes[node_id1].outWard.get(node_id2):
+                self.nodes[node_id1].outWard.pop(node_id2)
+                self.nodes[node_id2].inWard.pop(node_id1)
+                self.edges.pop((node_id1, node_id2))
+                self.mc += 1
+                return True
         return False
 
 

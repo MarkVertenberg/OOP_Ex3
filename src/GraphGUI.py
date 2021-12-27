@@ -11,6 +11,7 @@ from src.graphics.NodePainter import NodePainter
 WIDTH = 1280
 HEIGHT = 720
 GRAPH_WIDTH = 960
+GRAPH_HEIGHT = 720
 REFRESH_RATE = 30
 
 WHITE = (255, 255, 255)
