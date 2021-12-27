@@ -69,6 +69,26 @@ class Dijkstra:
             path = self.shortest_path_list(src, dest)
         return distance, path
 
+    def shortest_path_(self, graph: GraphInterface, src: int, dest: int):
+        """ Returns tuple that consists the distance and the path of the shortest path from src to dest """
+        self.do_algo(graph, src)
+        distance = self.INFINITY
+        path = []
+        if self.is_there_path(dest):
+            distance = self.shortest_dist_from_src[dest]
+            path = self.shortest_path_list(src, dest)
+        return path
+
+    def shortest_path_dist(self, graph: GraphInterface, src: int, dest: int):
+        """ Returns tuple that consists the distance and the path of the shortest path from src to dest """
+        self.do_algo(graph, src)
+        distance = self.INFINITY
+        path = []
+        if self.is_there_path(dest):
+            distance = self.shortest_dist_from_src[dest]
+            path = self.shortest_path_list(src, dest)
+        return distance
+
     def shortest_path_list(self, src, dest):
         """ Returns list representing the shortest path from src to dest
             Note: this function need to be used on graph that passed through the algorithm """

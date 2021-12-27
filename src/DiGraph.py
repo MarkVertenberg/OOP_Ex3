@@ -30,15 +30,14 @@ class DiGraph(GraphInterface):
         return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float):
-        if self.nodes[id1] is not None:
-            return False
-        if self.nodes[id2] is not None:
-            return False
-        self.nodes[id1].inWard = weight
-        self.nodes[id1].outWard = weight
+      if id1 in self.nodes and id2 in self.nodes:
+        self.edges[(id1, id2)] = weight
+        self.nodes[id1].outWard[id2] = weight
+        self.nodes[id2].inWard[id1] = weight
         self.mc = self.mc + 1
-
         return True
+      else:
+          return False
 
     def add_node(self, node_id: int, pos: tuple = None):
         if self.nodes.get(node_id) is None:
@@ -57,15 +56,12 @@ class DiGraph(GraphInterface):
             return False
 
     def remove_edge(self, node_id1: int, node_id2: int):
-        if self.nodes[node_id1] is None:
-            return False
-        if self.nodes[node_id2] is None:
-            return False
-        else:
-            self.nodes[node_id2].outWard = None
-            self.nodes[node_id2].outWard = None
-            self.mc = self.mc + 1
+        if node_id1 in self.nodes[node_id2].inWard and node_id2 in self.nodes[node_id1].outWard:
+            self.nodes[node_id1].outWard.pop(node_id2)
+            self.nodes[node_id2].inWard.pop(node_id1)
+            self.mc += 1
             return True
+        return False
 
 
 BLACK = (0, 0, 0)
