@@ -44,7 +44,7 @@ The function below Computes the length of the shortest path between src to dest:
         return float('inf'), []
     
 _________________________________________________________________________________________________________________________________________________________________________________ 
-The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, elese return null:
+The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, else return null:
 
     def centerPoint(self):
         min = float("inf")
