@@ -12,7 +12,7 @@ class DiGraph(GraphInterface):
         self.mc = 0
 
     def __repr__(self) -> str:
-        return f'Graph: |V|= {self.v_size()}, |E|{self.e_size()}'
+        return f'Graph: |V|= {self.v_size()}, |E|= {self.e_size()}'
 
     def v_size(self):
         return len(self.vertices)
@@ -93,7 +93,7 @@ class Node:
         self.painter = NodePainter(self)
 
     def __repr__(self) -> str:
-        return f'{self.value}:|edges_out| {self.outWard} |edges_in| {self.inWard}'
+        return f'{self.value}: |edges_out| {len(self.outWard)} |edges_in| {len(self.inWard)}'
 
     def get_key(self):
         return self.value
