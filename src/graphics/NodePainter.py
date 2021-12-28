@@ -54,6 +54,10 @@ class NodePainter:
         self.update_edges(graph)
         for edge in self.out_edges:
             edge.draw(screen)
+        if self.dest is not None:
+            for edge in self.out_edges:
+                if edge.dest.node.key == self.dest:
+                    edge.draw(screen)
 
     def set_radius(self, radius):
         pass
