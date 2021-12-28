@@ -18,7 +18,6 @@ class GraphAlgo(GraphAlgoInterface):
         self.mc = 0
         self.list = [int]
 
-
     def get_graph(self):
         return self.graph
 
@@ -58,24 +57,29 @@ class GraphAlgo(GraphAlgoInterface):
             return False
 
     def savefile(self):
-        Edges = []
+        tip = []
 
         for e in self.graph.edges:
+            List = {}
             src = e[0]
             dest = e[1]
             w = self.graph.edges[e]
-            Edges.append({"src": src, "dest": dest, "w": w})
-            Nodes = []
+            tip.append({"src": src, "dest": dest, "w": w})
+        ver = []
+        List["Edges"] = ver
         for n in self.graph.nodes.values():
             if n.pos is not None:
                 id = n.key
-                pos = f'{n.pos[0]},{n.pos[1]},{n.pos[2]}'
-                Nodes.append({"id": id, "pos": pos})
+                x = n.pos[0]
+                y = n.pos[1]
+                z = n.pos[2]
+                pos = f'{x},{y},{z}'
+                ver.append({"id": id, "pos": pos})
             else:
-                Nodes.append({"id": n.key, "pos": None})
-        List = {}
-        List["Edges"] = Edges
-        List["Nodes"] = Nodes
+                ver.append({"id": n.key, "pos": None})
+        List["Nodes"] = ver
+
+
         return List
 
     def shortest_path(self, id1: int, id2: int):
@@ -100,28 +104,23 @@ class GraphAlgo(GraphAlgoInterface):
                     path.append(p)
         return path, sum
 
-    #problem in out edges, dosent show the keys of outedges
-    def farthest_neighbor_of_node(self, src):
-        num = 0
-        dist = 0
-        visited = [False] * len(self.graph.nodes)
-        out_edges = self.graph.all_out_edges_of_node(src)
-        for neighbor in out_edges.keys():
-            if not visited[neighbor]:
-                dist = self.shortest_path(src, neighbor)[0]
-                visited[neighbor] = True
-                if num < dist:
-                    num = dist
-        return dist
+    def farthest_node_from_src(self, src):
+        max = 0
+        dis = 0
+        for Node in self.graph.nodes:
+            dis = self.shortest_path(src, Node)[0]
+            if dis > max:
+                max = dis
+        return max
 
     def centerPoint(self):
         min = float("inf")
         N = None
         for Node in self.graph.nodes:
-          dis = self.farthest_neighbor_of_node(Node)
-          if dis < min:
-            min = dis
-            N = Node
+            dis = self.farthest_node_from_src(Node)
+            if dis < min:
+                min = dis
+                N = Node
         return N, min
 
     def plot_graph(self):
