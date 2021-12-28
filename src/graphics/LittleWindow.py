@@ -146,8 +146,8 @@ class LittleWindow:
         for node in nodes:
             node.painter.color = LIGHT_YELLOW
             node.painter.dest = None
-            if path.__contains__(node.key):
-                index = path.index(node.key)
+            if path.__contains__(node.value):
+                index = path.index(node.value)
                 node.painter.color = GREEN
                 if len(path) > index + 1:
                     node.painter.dest = path.__getitem__(index + 1)

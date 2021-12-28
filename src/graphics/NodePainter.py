@@ -21,7 +21,7 @@ class NodePainter:
         self.radius = radius
         self.outline = outline
         self.color = color
-        self.text = Text(node.get_x(), node.get_y(), str(self.node.get_key()))
+        self.text = Text(node.get_x(), node.get_y(), str(self.node.get_value()))
         self.over = False
         self.scaler = Scale()
         self.new_x = None
@@ -48,7 +48,7 @@ class NodePainter:
             self.text.text = "(" + str(self.node.get_x()) + "," + str(self.node.get_y()) + ")"
         else:
             pygame.draw.circle(screen, self.color, (self.new_x, self.new_y), self.radius)
-            self.text.text = str(self.node.get_key())
+            self.text.text = str(self.node.get_value())
         self.text.draw(screen)
 
         self.update_edges(graph)
@@ -56,7 +56,7 @@ class NodePainter:
             edge.draw(screen)
         if self.dest is not None:
             for edge in self.out_edges:
-                if edge.dest.node.key == self.dest:
+                if edge.dest.node.value == self.dest:
                     edge.draw(screen, 4)
 
     def set_radius(self, radius):

@@ -43,8 +43,9 @@ class DiGraph(GraphInterface):
             self.Lines[(id1, id2)] = weight
             self.vertices[id1].outWard[id2] = weight
             self.vertices[id2].inWard[id1] = weight
-        self.mc = self.mc + 1
-        return True
+            self.mc = self.mc + 1
+            return True
+        return False
 
     def add_node(self, node_id: int, pos: tuple = None):
         if self.vertices.get(node_id) is None:
@@ -95,7 +96,7 @@ class Node:
     def __repr__(self) -> str:
         return f'{self.value}: |edges_out| {len(self.outWard)} |edges_in| {len(self.inWard)}'
 
-    def get_key(self):
+    def get_value(self):
         return self.value
 
     def get_x(self):
