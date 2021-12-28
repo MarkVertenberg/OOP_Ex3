@@ -1,5 +1,6 @@
 from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
+from src.GraphGUI import GraphGUI
 
 
 def check():
@@ -20,10 +21,16 @@ def check():
     (None, inf)
     ([1, 2, 3, 4], 4.5)
     """
+    my_check()
     check0()
     check1()
     check2()
     check3()
+
+
+def my_check():
+    gui = GraphGUI()
+    gui.run_gui()
 
 
 def check0():
