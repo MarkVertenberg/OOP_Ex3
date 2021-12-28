@@ -50,12 +50,12 @@ class GraphGUI:
         pygame.display.set_caption("Graph GUI")
         icon = pygame.image.load('graphics/images/graph_icon.jpg')
         pygame.display.set_icon(icon)
-        self.screen = pygame.display.set_mode((width, height))
+        self.screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
         while self.running:
             self.screen.fill(WHITE)
             if self.graph_algo:
                 nodes = list(self.graph_algo.get_graph().get_all_v().values())
-                self.show_graph(width, height, self.graph_algo.get_graph())
+                self.show_graph(self.screen.get_size()[0], self.screen.get_size()[1], self.graph_algo.get_graph())
                 for event in pygame.event.get():
                     for node in nodes:
                         node.painter.handle_event(event)
@@ -74,7 +74,6 @@ class GraphGUI:
                 load_button.handle_event(event, WHITE, WHITE, GREEN, BLACK)
                 if load_button.is_clicked:
                     self.graph_algo = GraphAlgo()
-                    self.graph_algo.load_from_json(load_button.window.input_boxes[0].text)
                     self.main_screen()
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -83,7 +82,7 @@ class GraphGUI:
         pygame.quit()
 
     def main_screen(self):
-        list_buttons = create_buttons()
+        list_buttons = self.create_buttons()
         while self.running:
             self.screen.fill(WHITE)
             self.show_graph(WIDTH * 0.75, HEIGHT, self.graph_algo.get_graph())
@@ -108,56 +107,55 @@ class GraphGUI:
         for button in buttons:
             button.draw(self.screen, 2)
 
+    def create_buttons(self):
 
-def create_buttons():
+        load_graph_input_box = InputBox(10, 10, 200, 30, "Path", text_size=16)
+        load = Button(WHITE, 220, 10, 80, 30, "Load", text_size=16)
+        load_window = LittleWindow([load_graph_input_box], load, function="load_from_json", graph_algo=self.graph_algo)
+        load_button = Button(WHITE, WIDTH * 0.75, 0, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Load Graph", window=load_window)
 
-    load_graph_input_box = InputBox(10, 10, 200, 30, "Path", text_size=16)
-    load = Button(WHITE, 220, 10, 80, 30, "Load", text_size=16)
-    load_window = LittleWindow([load_graph_input_box], load)
-    load_button = Button(WHITE, WIDTH * 0.75, 0, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Load Graph", window=load_window)
+        save_graph_input_box = InputBox(10, 10, 200, 30, "Path", text_size=16)
+        save = Button(WHITE, 220, 10, 80, 30, "Save", text_size=16)
+        save_window = LittleWindow([save_graph_input_box], save, function="save_to_json", graph_algo=self.graph_algo)
+        save_button = Button(WHITE, WIDTH * 0.75, HEIGHT * (1 / 9.0), WIDTH * 0.25, HEIGHT * (1 / 9.0), "Save Graph", window=save_window)
 
-    save_graph_input_box = InputBox(10, 10, 200, 30, "Path", text_size=16)
-    save = Button(WHITE, 220, 10, 80, 30, "Save", text_size=16)
-    save_window = LittleWindow([save_graph_input_box], save)
-    save_button = Button(WHITE, WIDTH * 0.75, HEIGHT * (1 / 9.0), WIDTH * 0.25, HEIGHT * (1 / 9.0), "Save Graph", window=save_window)
+        id_input_box = InputBox(10, 10, 65, 30, "Id", text_size=16)
+        x_add_node_input_box = InputBox(80, 10, 65, 30, "X", text_size=16)
+        y_add_node_input_box = InputBox(150, 10, 65, 30, "Y", text_size=16)
+        add_node = Button(WHITE, 220, 10, 80, 30, "Add", text_size=16)
+        add_edge_window = LittleWindow([id_input_box, x_add_node_input_box, y_add_node_input_box], add_node, graph_algo=self.graph_algo)
+        add_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 2, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Node", window=add_edge_window)
 
-    id_input_box = InputBox(10, 10, 65, 30, "Id", text_size=16)
-    x_add_node_input_box = InputBox(80, 10, 65, 30, "X", text_size=16)
-    y_add_node_input_box = InputBox(150, 10, 65, 30, "Y", text_size=16)
-    add_node = Button(WHITE, 220, 10, 80, 30, "Add", text_size=16)
-    add_edge_window = LittleWindow([id_input_box, x_add_node_input_box, y_add_node_input_box], add_node)
-    add_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 2, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Node", window=add_edge_window)
+        remove_node_input_box = InputBox(10, 10, 200, 30, "Node Id", text_size=16)
+        remove_node = Button(WHITE, 220, 10, 80, 30, "Remove", text_size=16)
+        remove_node_window = LittleWindow([remove_node_input_box], remove_node, graph_algo=self.graph_algo)
+        remove_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 3, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Node", window=remove_node_window)
 
-    remove_node_input_box = InputBox(10, 10, 200, 30, "Node Id", text_size=16)
-    remove_node = Button(WHITE, 220, 10, 80, 30, "Remove", text_size=16)
-    remove_node_window = LittleWindow([remove_node_input_box], remove_node)
-    remove_node_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 3, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Node", window=remove_node_window)
+        src_add_edge_input_box = InputBox(10, 10, 65, 30, "Src", text_size=16)
+        dest_add_edge_input_box = InputBox(80, 10, 65, 30, "Dest", text_size=16)
+        weight_input_box = InputBox(150, 10, 65, 30, "Weight", text_size=16)
+        add_edge = Button(WHITE, 220, 10, 80, 30, "Add", text_size=16)
+        add_edge_window = LittleWindow([src_add_edge_input_box, dest_add_edge_input_box, weight_input_box], add_edge, graph_algo=self.graph_algo)
+        add_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 4, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Edge", window=add_edge_window)
 
-    src_add_edge_input_box = InputBox(10, 10, 65, 30, "Src", text_size=16)
-    dest_add_edge_input_box = InputBox(80, 10, 65, 30, "Dest", text_size=16)
-    weight_input_box = InputBox(150, 10, 65, 30, "Weight", text_size=16)
-    add_edge = Button(WHITE, 220, 10, 80, 30, "Add", text_size=16)
-    add_edge_window = LittleWindow([src_add_edge_input_box, dest_add_edge_input_box, weight_input_box], add_edge)
-    add_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 4, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Add Edge", window=add_edge_window)
+        src_remove_edge_input_box = InputBox(10, 10, 100, 30, "Src", text_size=16)
+        dest_remove_edge_input_box = InputBox(115, 10, 100, 30, "Dest", text_size=16)
+        remove_edge = Button(WHITE, 220, 10, 80, 30, "Remove", text_size=16)
+        remove_edge_window = LittleWindow([src_remove_edge_input_box, dest_remove_edge_input_box], remove_edge,graph_algo=self.graph_algo)
+        remove_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 5, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Edge", window=remove_edge_window)
 
-    src_remove_edge_input_box = InputBox(10, 10, 100, 30, "Src", text_size=16)
-    dest_remove_edge_input_box = InputBox(115, 10, 100, 30, "Dest", text_size=16)
-    remove_edge = Button(WHITE, 220, 10, 80, 30, "Remove", text_size=16)
-    remove_edge_window = LittleWindow([src_remove_edge_input_box, dest_remove_edge_input_box], remove_edge)
-    remove_edge_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 5, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Remove Edge", window=remove_edge_window)
+        src_shortest_path_input_box = InputBox(10, 10, 100, 30, "Src", text_size=16)
+        dest_shortest_path_input_box = InputBox(115, 10, 100, 30, "Dest", text_size=16)
+        find_shortest_path = Button(WHITE, 220, 10, 80, 30, "Find", text_size=16)
+        shortest_path_window = LittleWindow([src_shortest_path_input_box, dest_shortest_path_input_box], find_shortest_path, self.graph_algo)
+        shortest_path_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 6, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Shortest Path", window=shortest_path_window)
 
-    src_shortest_path_input_box = InputBox(10, 10, 100, 30, "Src", text_size=16)
-    dest_shortest_path_input_box = InputBox(115, 10, 100, 30, "Dest", text_size=16)
-    find_shortest_path = Button(WHITE, 220, 10, 80, 30, "Find", text_size=16)
-    shortest_path_window = LittleWindow([src_shortest_path_input_box, dest_shortest_path_input_box], find_shortest_path)
-    shortest_path_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 6, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Shortest Path", window=shortest_path_window)
+        tsp_input_box = InputBox(10, 10, 200, 30, "Ids: 1,2,3.. or type All", text_size=16)
+        tsp = Button(WHITE, 220, 10, 80, 30, "Find", text_size=16)
+        tsp_window = LittleWindow([tsp_input_box], tsp, self.graph_algo)
+        tsp_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 7, WIDTH * 0.25, HEIGHT * (1 / 9.0), "TSP", window=tsp_window)
 
-    tsp_input_box = InputBox(10, 10, 200, 30, "Ids: 1,2,3.. or type All", text_size=16)
-    tsp = Button(WHITE, 220, 10, 80, 30, "Find", text_size=16)
-    tsp_window = LittleWindow([tsp_input_box], tsp)
-    tsp_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 7, WIDTH * 0.25, HEIGHT * (1 / 9.0), "TSP", window=tsp_window)
+        center_point_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 8, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Center Node", window=LittleWindow())
 
-    center_point_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 8, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Center Node", window=LittleWindow())
-
-    return [load_button, save_button, add_node_button, remove_node_button, add_edge_button, remove_edge_button,
-            shortest_path_button, tsp_button, center_point_button]
+        return [load_button, save_button, add_node_button, remove_node_button, add_edge_button, remove_edge_button,
+                shortest_path_button, tsp_button, center_point_button]

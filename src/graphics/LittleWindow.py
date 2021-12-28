@@ -10,16 +10,18 @@ BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 SKY_BLUE = (75, 118, 229)
 LIGHT_YELLOW = (255, 253, 126)
+RED = (255, 0, 0)
 
 
 class LittleWindow:
 
-    def __init__(self, input_boxes: List[InputBox] = None, button=None, related=None, function=None):
+    def __init__(self, input_boxes: List[InputBox] = None, button=None, related=None, function=None, graph_algo=None):
         self.related = related
         self.input_boxes = input_boxes
         self.button = button
         self.massage = Text(160, 60, "Text")
         self.function = function
+        self.graph_algo = graph_algo
         if related:
             if self.button:
                 self.button.x += self.related.x
@@ -39,8 +41,23 @@ class LittleWindow:
         if self.button:
             self.button.handle_event(event)
             if self.button.is_clicked:
-                self.massage.text = "button Clicked"
-                # self.function()
+                self.massage.color = BLACK
+                has_input = True
+                self.massage.text = ""
+                for data in self.input_boxes:
+                    if data.text.text == '':
+                        self.massage.text += data.massage.text + " "
+                        has_input = False
+                        self.massage.color = RED
+                self.massage.text += "missing"
+                if has_input:
+                    self.massage.text = "processing"
+                    try:
+                        self.go_to_function()
+                    except Exception as e:
+                        print(e)
+                        self.massage.color = RED
+                        self.massage.text = "Failure"
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.handle_event(event)
@@ -50,7 +67,6 @@ class LittleWindow:
             pygame.draw.rect(screen, BLACK, self.related.get_rect(), outline)
         print(self.massage.text)
         if self.massage.text != '':
-            print("passed")
             self.massage.draw(screen)
         if self.button:
             self.button.draw(screen, 2)
@@ -63,3 +79,7 @@ class LittleWindow:
             for input_box in self.input_boxes:
                 input_box.text.text = ''
         self.massage.text = ''
+
+    def go_to_function(self):
+        if self.function == "load_from_json":
+            self.graph_algo.load_from_json(self.input_boxes[0])

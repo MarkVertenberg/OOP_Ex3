@@ -1,6 +1,7 @@
 
 from DiGraph import *
 from GraphAlgo import GraphAlgo
+from src.GraphGUI import GraphGUI
 
 
 def check():
@@ -19,7 +20,7 @@ def check():
     (7, 6.806805834715163)
     ([1,3,4,2],3.5)
     """
-    # my_check()
+    my_check()
     check0()
     check1()
     check2()
@@ -27,17 +28,9 @@ def check():
 
 
 def my_check():
-    graph = DiGraph()
-    graph.add_node(0, (30, 30))
-    graph.add_node(1, (50, 50))
-    graph.add_node(2, (30, 50))
-    graph.nodes[3] = Node(3, (50, 30))
-    graph.nodes[4] = Node(4, (40, 40))
-    graph.nodes[5] = Node(5, (41, 39))
-    graph_algo = GraphAlgo(graph)
-    graph_algo.plot_graph()
-    graph.remove_node(2)
-    graph_algo.plot_graph()
+    gui = GraphGUI()
+    gui.run_gui()
+
 
 
 def check0():
