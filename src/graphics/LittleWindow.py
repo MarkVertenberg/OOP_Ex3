@@ -93,6 +93,7 @@ class LittleWindow:
         if self.function == "load_from_json":
             return self.graph_algo.load_from_json(self.input_boxes[0].text.text)
         if self.function == "save_to_json":
+            self.show_path_in_graph([])
             return self.graph_algo.save_to_json(self.input_boxes[0].text.text)
         if self.function == "add_node":
             key = int(self.input_boxes[0].text.text)
