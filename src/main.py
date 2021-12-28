@@ -32,7 +32,6 @@ def my_check():
     gui.run_gui()
 
 
-
 def check0():
     """
     This function tests the naming main methods of the DiGraph class, as defined in GraphInterface.

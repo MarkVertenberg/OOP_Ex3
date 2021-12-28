@@ -24,7 +24,7 @@ class Button:
         self.is_clicked = False
         self.window = None
         if window:
-            window.__init__(window.input_boxes, window.button, self, window.function)
+            window.__init__(window.input_boxes, window.button, self, window.function, window.graph_algo)
             self.window = window
 
     def handle_event(self, event, over_color=SKY_BLUE, not_over_color=WHITE, over_color_text=WHITE, not_over_color_text=BLACK):

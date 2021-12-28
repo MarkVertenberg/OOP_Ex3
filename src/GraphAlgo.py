@@ -24,7 +24,6 @@ class GraphAlgo(GraphAlgoInterface):
     def load_from_json(self, file_name: str):
         try:
             self.graph = DiGraph()
-
             with open(file_name, "r") as fp:
                 obj = json.load(fp)
                 for n in obj["Nodes"]:

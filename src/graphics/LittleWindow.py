@@ -52,12 +52,17 @@ class LittleWindow:
                 self.massage.text += "missing"
                 if has_input:
                     self.massage.text = "processing"
-                    try:
-                        self.go_to_function()
-                    except Exception as e:
-                        print(e)
-                        self.massage.color = RED
-                        self.massage.text = "Failure"
+                    if self.graph_algo:
+                        try:
+                            self.go_to_function()
+                            self.massage.color = GREEN
+                            self.massage.text = "Done"
+                        except Exception as e:
+                            print(e)
+                            self.massage.color = RED
+                            self.massage.text = "Failure"
+                    else:
+                        self.massage.text = "There is no graph"
         if self.input_boxes:
             for input_box in self.input_boxes:
                 input_box.handle_event(event)
@@ -65,7 +70,6 @@ class LittleWindow:
     def draw(self, screen, outline):
         if outline:
             pygame.draw.rect(screen, BLACK, self.related.get_rect(), outline)
-        print(self.massage.text)
         if self.massage.text != '':
             self.massage.draw(screen)
         if self.button:
@@ -82,4 +86,4 @@ class LittleWindow:
 
     def go_to_function(self):
         if self.function == "load_from_json":
-            self.graph_algo.load_from_json(self.input_boxes[0])
+            self.graph_algo.load_from_json(self.input_boxes[0].text.text)
