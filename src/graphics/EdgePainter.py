@@ -15,8 +15,7 @@ class EdgePainter:
         self.dest = dest
         self.start_x, self.start_y, self.stop_x, self.stop_y = self.start_pos()
         self.color = color
-        self.text = None
-        self.weight = weight
+        self.text = Text(None, None, weight)
         self.over = False
 
     def start_pos(self):
@@ -44,7 +43,11 @@ class EdgePainter:
         self.start_x, self.start_y, self.stop_x, self.stop_y = self.start_pos()
         if self.start_x:
             pygame.draw.line(screen, self.color, (self.start_x, self.start_y), (self.stop_x, self.stop_y), outline)
-            pygame.draw.polygon(screen, self.color, self.triangle_pos(self.dest.radius * 0.8))
+            triangle = self.triangle_pos(self.dest.radius * 0.8)
+            pygame.draw.polygon(screen, self.color, triangle)
+            #self.text.x = str(triangle[2][0])
+            #self.text.y = str(triangle[2][1])
+            #self.text.draw(screen, True)
 
     def triangle_pos(self, height_tmp):
         dx = self.stop_x - self.start_x
