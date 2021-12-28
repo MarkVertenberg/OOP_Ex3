@@ -143,7 +143,9 @@ class GraphGUI:
         tsp_window = LittleWindow([tsp_input_box], tsp, function="TSP", graph_algo=self.graph_algo)
         tsp_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 7, WIDTH * 0.25, HEIGHT * (1 / 9.0), "TSP", window=tsp_window)
 
-        center_point_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 8, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Center Node", window=LittleWindow())
+        center_point = Button(WHITE, 10, 10, 300, 35, "Find", text_size=24)
+        center_point_window = LittleWindow([], center_point, function="centerPoint", graph_algo=self.graph_algo)
+        center_point_button = Button(WHITE, WIDTH * 0.75, (HEIGHT * (1 / 9.0)) * 8, WIDTH * 0.25, HEIGHT * (1 / 9.0), "Center Node", window=center_point_window)
 
         return [load_button, save_button, add_node_button, remove_node_button, add_edge_button, remove_edge_button,
                 shortest_path_button, tsp_button, center_point_button]

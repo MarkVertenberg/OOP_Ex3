@@ -119,7 +119,25 @@ class LittleWindow:
                 self.show_path_in_graph(path)
                 return True
             return False
-
+        if self.function == "TSP":
+            data = self.input_boxes[0].text.text
+            list_cities = []
+            if data.upper() == "ALL":
+                list_cities = list(self.graph_algo.get_graph().get_all_v().keys())
+            else:
+                for key in data.split(","):
+                    list_cities.append(int(key))
+            path = self.graph_algo.TSP(list_cities)[0]
+            if len(path) > 0:
+                self.show_path_in_graph(path)
+                return True
+            return False
+        if self.function == "centerPoint":
+            ans = self.graph_algo.centerPoint()[0]
+            if ans is not None:
+                self.show_path_in_graph([ans])
+                return True
+            return False
         return False
 
     def show_path_in_graph(self, path: List[int]):
@@ -128,7 +146,6 @@ class LittleWindow:
             node.painter.color = LIGHT_YELLOW
             node.painter.dest = None
             if path.__contains__(node.key):
-                print("pass")
                 index = path.index(node.key)
                 node.painter.color = GREEN
                 if len(path) > index + 1:
