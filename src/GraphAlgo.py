@@ -4,7 +4,6 @@ import json
 import random
 
 from GraphAlgoInterface import GraphAlgoInterface
-from GraphInterface import GraphInterface
 from Dijkstra import Dijkstra
 from src.DiGraph import DiGraph
 
@@ -16,16 +15,19 @@ class GraphAlgo(GraphAlgoInterface):
     def __init__(self, graph=DiGraph()) -> None:
         self.graph = graph
         self.mc = 0
-        self.list = [int]
 
     def get_graph(self):
         return self.graph
 
     def load_from_json(self, file_name: str):
+        file = file_name
+        s = file[-4:]
+        if s != "json":
+            file_name = file_name+".json"
         try:
             self.graph = DiGraph()
-            with open(file_name, "r") as fp:
-                obj = json.load(fp)
+            with open(file_name, "r") as a:
+                obj = json.load(a)
                 for n in obj["Nodes"]:
                     t = int(n["id"])
                     if "pos" in n:
@@ -33,7 +35,7 @@ class GraphAlgo(GraphAlgoInterface):
                         x = float(m[0])
                         y = float(m[1])
                         z = float(m[2])
-                        self.graph.add_node(t, (x, y, z))
+                        self.graph.add_node(t,(x, y, z))
                     else:
                         self.graph.add_node(t)
                 for e in obj["Edges"]:
@@ -41,7 +43,7 @@ class GraphAlgo(GraphAlgoInterface):
                     dest = int(e["dest"])
                     w = float(e["w"])
                     self.graph.add_edge(src, dest, w)
-        except:
+        except IOError:
             return False
 
         return True
@@ -57,28 +59,25 @@ class GraphAlgo(GraphAlgoInterface):
 
     def savefile(self):
         tip = []
-
-        for e in self.graph.edges:
-            List = {}
+        for e in self.graph.Lines:
             src = e[0]
             dest = e[1]
-            w = self.graph.edges[e]
-            tip.append({"src": src, "dest": dest, "w": w})
+            w = self.graph.Lines[e]
+            tip.append({"src": src, "w": w, "dest": dest})
+        List = {}
+        List["Edges"] = tip
         ver = []
-        List["Edges"] = ver
-        for n in self.graph.nodes.values():
-            if n.pos is not None:
-                id = n.key
-                x = n.pos[0]
-                y = n.pos[1]
-                z = n.pos[2]
+        for n in self.graph.vertices.values():
+            if n.dist is not None:
+                r = n.value
+                x = n.dist[0]
+                y = n.dist[1]
+                z = n.dist[2]
                 pos = f'{x},{y},{z}'
-                ver.append({"id": id, "pos": pos})
+                ver.append({"id": r, "pos": pos})
             else:
-                ver.append({"id": n.key, "pos": None})
+                ver.append({"id": n.value, "pos": None})
         List["Nodes"] = ver
-
-
         return List
 
     def shortest_path(self, id1: int, id2: int):
@@ -106,7 +105,7 @@ class GraphAlgo(GraphAlgoInterface):
     def farthest_node_from_src(self, src):
         max = 0
         dis = 0
-        for Node in self.graph.nodes:
+        for Node in self.graph.vertices:
             dis = self.shortest_path(src, Node)[0]
             if dis > max:
                 max = dis
@@ -115,7 +114,7 @@ class GraphAlgo(GraphAlgoInterface):
     def centerPoint(self):
         min = float("inf")
         N = None
-        for Node in self.graph.nodes:
+        for Node in self.graph.vertices:
             dis = self.farthest_node_from_src(Node)
             if dis < min:
                 min = dis
