@@ -123,10 +123,10 @@ The function below loads a graph to this graph algorithm.if the file was success
             return False
 
  # UML:
-
+![Untitled Diagram drawio](https://user-images.githubusercontent.com/93255163/147570004-6c173b20-fe8c-4336-9282-a224e7e3369e.png)
 
 # Report results:
-
+**The results can be seen in the attached WIKI file.**
 
 # Helpful Links:
 
