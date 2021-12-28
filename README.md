@@ -44,7 +44,7 @@ The function below Computes the length of the shortest path between src to dest:
         return float('inf'), []
     
 _________________________________________________________________________________________________________________________________________________________________________________ 
-The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, elese return null:
+The function below finds the NodeData which minimizes the max distance to all the other nodes. Assuming the graph isConnected, else return null:
 
     def centerPoint(self):
         min = float("inf")
@@ -123,7 +123,7 @@ The function below loads a graph to this graph algorithm.if the file was success
             return False
 
  # UML:
-![Untitled Diagram drawio](https://user-images.githubusercontent.com/93255163/147570004-6c173b20-fe8c-4336-9282-a224e7e3369e.png)
+![Untitled Diagram drawio (3)](https://user-images.githubusercontent.com/93255163/147592154-54adfe2f-5316-47ff-8d14-fc93b215339d.png)
 
 # Report results:
 **The results can be seen in the attached WIKI file.**
