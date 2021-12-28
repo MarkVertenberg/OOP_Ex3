@@ -12,7 +12,7 @@ WIDTH = 1280
 HEIGHT = 720
 GRAPH_WIDTH = 960
 GRAPH_HEIGHT = 720
-REFRESH_RATE = 30
+REFRESH_RATE = 60
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -57,12 +57,12 @@ class GraphGUI:
             if self.graph_algo:
                 nodes = list(self.graph_algo.get_graph().get_all_v().values())
                 self.show_graph(self.screen.get_size()[0], self.screen.get_size()[1], self.graph_algo.get_graph())
+                pygame.display.update()
                 for event in pygame.event.get():
                     for node in nodes:
                         node.painter.handle_event(event)
                     if event.type == pygame.QUIT:
                         self.running = False
-            pygame.display.update()
             self.clock.tick(REFRESH_RATE)
         pygame.quit()
 
@@ -72,6 +72,7 @@ class GraphGUI:
             self.screen.fill(WHITE)
             self.show_graph(WIDTH * 0.75, HEIGHT, self.graph_algo.get_graph())
             self.show_buttons(list_buttons)
+            pygame.display.update()
             for event in pygame.event.get():
                 nodes = list(self.graph_algo.get_graph().get_all_v().values())
                 for node in nodes:
@@ -80,7 +81,6 @@ class GraphGUI:
                     button.handle_event(event)
                 if event.type == pygame.QUIT:
                     self.running = False
-            pygame.display.update()
             self.clock.tick(REFRESH_RATE)
         pygame.quit()
 

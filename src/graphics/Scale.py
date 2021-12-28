@@ -19,6 +19,10 @@ class Scale:
             self.pixel_x, self.pixel_y = self.calculate_pixel()
 
     def scale_node(self):
+        if self.pixel_x == 0:
+            self.pixel_x = 0.00001
+        if self.pixel_y == 0:
+            self.pixel_y = 0.00001
         new_x = ((self.node.node.get_x() - self.min_x) / self.pixel_x) + self.start_x
         new_y = ((self.node.node.get_y() - self.min_y) / self.pixel_y) + self.start_y
         return new_x, new_y

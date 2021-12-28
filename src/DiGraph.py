@@ -40,8 +40,9 @@ class DiGraph(GraphInterface):
             self.edges[(id1, id2)] = weight
             self.nodes[id1].outWard[id2] = weight
             self.nodes[id2].inWard[id1] = weight
-        self.mc = self.mc + 1
-        return True
+            self.mc = self.mc + 1
+            return True
+        return False
 
     def add_node(self, node_id: int, pos: tuple = None):
         if self.nodes.get(node_id) is None:

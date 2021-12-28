@@ -26,6 +26,7 @@ class NodePainter:
         self.scaler = Scale()
         self.new_x = None
         self.new_y = None
+        self.dest = None
 
     def handle_event(self, event):
         pos = pygame.mouse.get_pos()
@@ -46,7 +47,7 @@ class NodePainter:
             pygame.draw.circle(screen, WHITE, (self.new_x, self.new_y), self.radius)
             self.text.text = "(" + str(self.node.get_x()) + "," + str(self.node.get_y()) + ")"
         else:
-            pygame.draw.circle(screen, LIGHT_YELLOW, (self.new_x, self.new_y), self.radius)
+            pygame.draw.circle(screen, self.color, (self.new_x, self.new_y), self.radius)
             self.text.text = str(self.node.get_key())
         self.text.draw(screen)
 
@@ -73,4 +74,7 @@ class NodePainter:
         self.out_edges = []
         if self.node:
             for dest in list(self.node.outWard.keys()):
-                self.out_edges.append(EdgePainter(self, graph.get_all_v().get(dest).painter, self.node.outWard.get(dest)))
+                color = BLACK
+                if self.dest and self.dest == dest:
+                    color = GREEN
+                self.out_edges.append(EdgePainter(self, graph.get_all_v().get(dest).painter, self.node.outWard.get(dest), color))
